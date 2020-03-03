@@ -41,7 +41,14 @@ const renderDetailedAppointment = (event) => {
 const renderOneAppointment = (appointment) => {
   console.log("APPT", appointment)
   appDetailPanel.dataset.id = appointment.id
-  const appt_detail = `<h1>${appointment.patient.full_name}</h1>`
+  const appt_detail = `<h1>${appointment.patient.full_name}</h1><img src="${appointment.patient.image}" alt="patient photo">
+    <h2>Pre-existing Medical Conditions: ${appointment.patient.health_conditions}</h2>
+    <h3>Age: ${appointment.patient.age} years</h3>
+    <h3>Height: ${appointment.patient.height_string}</h3>
+    <h3>Weight: ${appointment.patient.weight} pounds</h3>
+    <h3>Email: ${appointment.patient.email}</h3>
+    <textarea name="diagnosis" placeholder="Enter Diagnosis" rows="8" cols="80"></textarea>
+    <textarea name="directions" placeholder="Enter Directions For Patient" rows="8" cols="80"></textarea>`
   appDetailPanel.innerHTML = appt_detail
 }
 

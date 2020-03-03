@@ -7,13 +7,15 @@ APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
 const appointmentList = document.querySelector(".appointment-list")
 const appDetailPanel = document.querySelector(".appointment-detail-panel")
 const doctorContainer = document.querySelector(".doctor-container")
-
+const body = document.querySelector("body")
+let doctorsData
 
 
 //  defined functions
 
 const fetchDoctorFromLogin = (event) => {
   event.preventDefault()
+
   const clicked = event.target
   const doctorEmail = clicked.children[2].value
     fetch(`${DOCTORS_ENDPOINT}`)
@@ -29,8 +31,8 @@ const fetchDoctorFromLogin = (event) => {
           .catch(err => renderErrors(err))
       })
     }
-    
-      
+
+
 
 
 const loginScreen = () => {
@@ -51,7 +53,7 @@ const loginScreen = () => {
 }
 
 const renderDoctorHomeScreen = (doctor) => {
-  debugger
+
   console.log(doctor.appointments)
   body.innerHTML = ""
   const doctorDiv = document.createElement('div')
@@ -110,7 +112,7 @@ const fetchDoctors = () => {
 
 const renderDoctors = (doctors) => {
   doctors.forEach(doctor => {
-  
+
     const doctor_detail = `<div><h1><strong><span style="text-decoration: underline;">${doctor.full_name}</span></strong></span></h1><img src="${doctor.image}" alt="doctor photo">
     <h2>Specialty: ${doctor.specialty}</h2>
     <h3>Residency: ${doctor.residency}</h3>
@@ -118,8 +120,8 @@ const renderDoctors = (doctors) => {
     <h3>Email: ${doctor.email}</h3>
     <button data-doctor-id="${doctor.id}" id="edit-bio">Edit Doctor Bio</button>
     </div>`
-  
-    
+
+
 
     doctorContainer.innerHTML += doctor_detail
 
@@ -128,28 +130,28 @@ const renderDoctors = (doctors) => {
 
     doctorContainer.addEventListener("click", (e) => {
       if (e.target.innerText === "Edit Doctor Bio") {
-        
+
       };
     })
   }
 
 
-  
-
-  
-
-  
-
-
-    
-  
 
 
 
 
 
 
-  
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -163,5 +165,5 @@ appointmentList.addEventListener('click', renderDetailedAppointment)
 
 
 //  invoked functions
-//loginScreen()
-fetchDoctors()
+loginScreen()
+// fetchDoctors()

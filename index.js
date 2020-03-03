@@ -6,21 +6,36 @@
 
 //  defined variables
 
-const APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments/"
+DOCTORS_ENDPOINT = "http://localhost:3000/doctors"
+PATIENTS_ENDPOINT = "http://localhost:3000/patients"
+APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
 
 const body = document.querySelector("body")
 const appointmentList = document.querySelector(".appointment-list")
 const appDetailPanel = document.querySelector(".appointment-detail-panel")
-
+let doctorsData
 
 
 
 //  defined functions
 
-const renderDoctorHomeScreen = (event) => {
+const fetchDoctorFromLogin = (event) => {
   event.preventDefault()
   const clicked = event.target
   const doctorEmail = clicked.children[2].value
+    fetch(`${DOCTORS_ENDPOINT}`)
+      .then(resp => resp.json())
+      .then(doctors => {
+        doctorsData = doctors
+        doctorEmail
+        const matchingDoc = doctorsData.filter(doctor => doctor.email === doctorEmail)
+        const docId = matchingDoc[0].id
+        fetch(`${DOCTORS_ENDPOINT}/${docId}`)
+          .then(resp => resp.json())
+          .then(doctor => renderDoctorHomeScreen(doctor))
+          .catch(err => renderErrors(err))
+      })
+      .catch(err => renderErrors(err))
 }
 
 const loginScreen = () => {
@@ -36,34 +51,23 @@ const loginScreen = () => {
 
   const loginForm = document.querySelector(".login-form")
 
-  loginForm.addEventListener('submit', renderDoctorHomeScreen)
+  loginForm.addEventListener('submit', fetchDoctorFromLogin)
 
 }
 
-
-const fetchAppointments = () => {
-    fetch(APPOINTMENTS_ENDPOINT)
-        .then(resp => resp.json())
-        .then(appointments => renderAppointments(appointments))
-        .catch(err => renderErrors(err))
+const renderDoctorHomeScreen = (doctor) => {
+  console.log(doctor.appointments)
+  body.innerHTML = ""
+  body.append(appointmentList)
+    doctor.appointments.forEach(app => {
+      appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
+      appointmentList.innerHTML += appLI
+    })
 }
 
 const renderErrors = (err) => {
   appointmentList.innerHTML = `<h1>The following errors prevented the data from fetching. ${err}. Make sure rails server is running.`
 }
-
-const renderAppointments = (appointments) => {
-  console.log("HI", appointments)
-  appointments.forEach(app => {
-    appLI = `<li data-id="${app.id}">${app.stringified_date} with ${app.patient.full_name} <button type="button" class="deletebtn">Delete Appointment</button></li>` // added delete button 
-    appointmentList.innerHTML += appLI
-  })
-}
-
-// delete appointment action
-// function deleteAppointment(){
-
-// }
 
 const renderDetailedAppointment = (event) => {
 
@@ -80,6 +84,7 @@ const renderDetailedAppointment = (event) => {
 
 const renderOneAppointment = (appointment) => {
   console.log("APPT", appointment)
+  body.append(appDetailPanel)
   appDetailPanel.dataset.id = appointment.id
   const appt_detail = `<h1>${appointment.patient.full_name}</h1><img src="${appointment.patient.image}" alt="patient photo">
     <h2>Pre-existing Medical Conditions: ${appointment.patient.health_conditions}</h2>
@@ -144,5 +149,4 @@ appointmentList.addEventListener('click', renderDetailedAppointment)
 
 
 //  invoked functions
-fetchAppointments()
-// loginScreen()
+loginScreen()

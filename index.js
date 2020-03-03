@@ -6,7 +6,7 @@ APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
 
 const appointmentList = document.querySelector(".appointment-list")
 const appDetailPanel = document.querySelector(".appointment-detail-panel")
-let doctorsData
+const doctorContainer = document.querySelector(".doctor-container")
 
 
 
@@ -28,8 +28,10 @@ const fetchDoctorFromLogin = (event) => {
           .then(doctor => renderDoctorHomeScreen(doctor))
           .catch(err => renderErrors(err))
       })
-      .catch(err => renderErrors(err))
-}
+    }
+    
+      
+
 
 const loginScreen = () => {
   const loginDiv = document.createElement("div")
@@ -110,12 +112,35 @@ const renderDoctors = (doctors) => {
     <h3>Email: ${doctor.email}</h3>
     <button data-doctor-id="${doctor.id}" id="edit-bio">Edit Doctor Bio</button>
     </div>`
+  
     
 
     doctorContainer.innerHTML += doctor_detail
 
   })
-}
+
+
+    doctorContainer.addEventListener("click", (e) => {
+      if (e.target.innerText === "Edit Doctor Bio") {
+        
+      };
+    })
+  }
+
+
+  
+
+  
+
+  
+
+
+    
+  
+
+
+
+
 
 
   
@@ -132,4 +157,5 @@ appointmentList.addEventListener('click', renderDetailedAppointment)
 
 
 //  invoked functions
-loginScreen()
+//loginScreen()
+fetchDoctors()

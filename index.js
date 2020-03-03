@@ -130,25 +130,7 @@ const renderDoctors = (doctors) => {
 
   
 
-  
-
-  
-
-
-    
-  
-
-
-
-
-
-
-  
-
-
-
-
-//  event listeners
+  //  event listeners
 appointmentList.addEventListener('click', renderDetailedAppointment)
 
 

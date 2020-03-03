@@ -7,6 +7,7 @@ APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
 const appointmentList = document.querySelector(".appointment-list")
 const appDetailPanel = document.querySelector(".appointment-detail-panel")
 const doctorContainer = document.querySelector(".doctor-container")
+const body = document.querySelector("body")
 
 
 
@@ -51,7 +52,6 @@ const loginScreen = () => {
 }
 
 const renderDoctorHomeScreen = (doctor) => {
-  debugger
   console.log(doctor.appointments)
   body.innerHTML = ""
   const doctorDiv = document.createElement('div')
@@ -176,16 +176,6 @@ const renderDoctors = (doctors) => {
 
 
 
-
-
-
-  
-
-
-
-
-
-
 //  event listeners
 appointmentList.addEventListener('click', renderDetailedAppointment)
 
@@ -194,5 +184,5 @@ appointmentList.addEventListener('click', renderDetailedAppointment)
 
 
 //  invoked functions
-//loginScreen()
+loginScreen()
 fetchDoctors()

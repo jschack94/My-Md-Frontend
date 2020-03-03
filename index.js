@@ -4,10 +4,7 @@ APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments/"
 
 const appointmentList = document.querySelector(".appointment-list")
 const appDetailPanel = document.querySelector(".appointment-detail-panel")
-
-
-
-
+const doctorList = document.querySelector(".doctor-list")
 //  defined functions
 
 const fetchAppointments = () => {
@@ -56,14 +53,8 @@ const renderOneAppointment = (appointment) => {
 }
 
 
-
-
-
-
-
-
-
-
+    
+    
 //  event listeners
 appointmentList.addEventListener('click', renderDetailedAppointment)
 
@@ -74,3 +65,4 @@ appointmentList.addEventListener('click', renderDetailedAppointment)
 
 //  invoked functions
 // fetchAppointments()
+fetchDoctors()

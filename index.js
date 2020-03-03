@@ -3,7 +3,7 @@
 APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments/"
 
 const appointmentList = document.querySelector(".appointment-list")
-
+const appDetailPanel = document.querySelector(".appointment-detail-panel")
 
 
 
@@ -25,7 +25,25 @@ const renderAppointments = (appointments) => {
   })
 }
 
+const renderDetailedAppointment = (event) => {
 
+  if (event.target.tagName === "LI") {
+    console.log("IM AN LI", event.target)
+    clicked = event.target
+    const appointmentId = event.target.dataset.id
+    fetch(`${APPOINTMENTS_ENDPOINT}/${appointmentId}`)
+      .then(resp => resp.json())
+      .then(appointment => renderOneAppointment(appointment))
+      .catch(err => console.log(err))
+  }
+}
+
+const renderOneAppointment = (appointment) => {
+  console.log("APPT", appointment)
+  appDetailPanel.dataset.id = appointment.id
+  const appt_detail = `<h1>${appointment.patient.full_name}</h1>`
+  appDetailPanel.innerHTML = appt_detail
+}
 
 
 
@@ -37,7 +55,7 @@ const renderAppointments = (appointments) => {
 
 
 //  event listeners
-
+appointmentList.addEventListener('click', renderDetailedAppointment)
 
 
 

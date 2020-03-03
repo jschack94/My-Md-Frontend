@@ -1,0 +1,25 @@
+{
+  "name": "my_appointments_front",
+  "version": "1.0.0",
+  "description": "My appointments",
+  "main": "index.js",
+  "scripts": {
+    "test": "fomantic"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lindsaysings/my_appointments_front.git"
+  },
+  "keywords": [
+    "fomantic"
+  ],
+  "author": "Lindsay Mecher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lindsaysings/my_appointments_front/issues"
+  },
+  "homepage": "https://github.com/lindsaysings/my_appointments_front#readme",
+  "dependencies": {
+    "fomantic-ui": "^2.8.4"
+  }
+}

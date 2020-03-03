@@ -2,3 +2,41 @@ img {
     max-width:50%;
     height:auto;
 }
+
+body {
+  font-family: times;
+}
+
+input {
+  font-family: times;
+}
+
+.login-form {
+  text-align: center;
+  align: center;
+  margin-top: 200px;
+  font-size: 40px;
+}
+
+#myMDLogo {
+  text-align: right;
+  margin-right: 100px;
+  font-size: 50px;
+}
+
+img.medical-image {
+  align: right;
+  margin-right: 0px;
+  height: auto;
+  width: auto;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.login-email {
+  font-size: 30px;
+}
+
+.login-submit {
+  font-size: 30px;
+}

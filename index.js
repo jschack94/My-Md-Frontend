@@ -38,9 +38,9 @@ const fetchDoctorFromLogin = (event) => {
 const loginScreen = () => {
   const loginDiv = document.createElement("div")
 
-  body.innerHTML = `<h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-right: 100px;" class="medical-image" src="https://images.squarespace-cdn.com/content/v1/5908027c20099e374ad3d70e/1498497433363-9FIJ7FA1O2O1OMU760YE/ke17ZwdGBToddI8pDm48kEIuZxI6W46qNPE4tOwAgJl7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0k6sq9GEl9ZUDkp1sRKcAyLcGm_zFFSj8V81weFb6OmoAJ4fht0OgyKA20Hd2KoDYQ/symbol-of-caduceus.jpg?format=2500w" alt="medical-symbol"><div class="login" id="login">
+  body.innerHTML = `<h1 class="display-1" style="font-size: 100px;" id="myMDLogo">myMD</h1><br><img style="float: right; margin-right: 100px;" class="medical-image" src="https://images.squarespace-cdn.com/content/v1/5908027c20099e374ad3d70e/1498497433363-9FIJ7FA1O2O1OMU760YE/ke17ZwdGBToddI8pDm48kEIuZxI6W46qNPE4tOwAgJl7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0k6sq9GEl9ZUDkp1sRKcAyLcGm_zFFSj8V81weFb6OmoAJ4fht0OgyKA20Hd2KoDYQ/symbol-of-caduceus.jpg?format=2500w" alt="medical-symbol"><div class="login" id="login">
     <form class="login-form" action="index.html" method="post">
-      <label for="login-form">Please Enter Email to Login</label><br>
+      <label class="display-1" style="font-size: 50px;" for="login-form">Please Enter Email to Login</label><br>
       <input class="login-email" type="text" name="email" value="">
       <input class="login-submit" type="submit" name="Submit" value="Submit">
     </form>
@@ -109,7 +109,7 @@ const renderOneAppointment = (appointment) => {
       diagnosis: e.target[0].value,
       directions: e.target[1].value
     }
-    
+
     console.log(formData)
     e.target.reset()
 

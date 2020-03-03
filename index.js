@@ -1,19 +1,12 @@
-//  IMPORTANT COMMENTS ************
-// in order to test the doctor homescreen, uncomment the fetchAppointments function call at bottom of file
-//  IMPORTANT COMMENTS ************
-// feel free to add more comments here!!! *****
-
-
-//  defined variables
+//variables
 
 DOCTORS_ENDPOINT = "http://localhost:3000/doctors"
 PATIENTS_ENDPOINT = "http://localhost:3000/patients"
 APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
 
-const body = document.querySelector("body")
 const appointmentList = document.querySelector(".appointment-list")
 const appDetailPanel = document.querySelector(".appointment-detail-panel")
-let doctorsData
+const doctorContainer = document.querySelector(".doctor-container")
 
 
 
@@ -35,8 +28,10 @@ const fetchDoctorFromLogin = (event) => {
           .then(doctor => renderDoctorHomeScreen(doctor))
           .catch(err => renderErrors(err))
       })
-      .catch(err => renderErrors(err))
-}
+    }
+    
+      
+
 
 const loginScreen = () => {
   const loginDiv = document.createElement("div")
@@ -100,11 +95,55 @@ const renderOneAppointment = (appointment) => {
   appDetailPanel.innerHTML = appt_detail
 }
 
+const fetchDoctors = () => {
+  fetch(DOCTORS_ENDPOINT)
+      .then(resp => resp.json())
+      .then(doctors => renderDoctors(doctors))
+
+}
+
+const renderDoctors = (doctors) => {
+  doctors.forEach(doctor => {
+  
+    const doctor_detail = `<div><h1><strong><span style="text-decoration: underline;">${doctor.full_name}</span></strong></span></h1><img src="${doctor.image}" alt="doctor photo">
+    <h2>Specialty: ${doctor.specialty}</h2>
+    <h3>Residency: ${doctor.residency}</h3>
+    <h3>Bio: ${doctor.bio}</h3>
+    <h3>Email: ${doctor.email}</h3>
+    <button data-doctor-id="${doctor.id}" id="edit-bio">Edit Doctor Bio</button>
+    </div>`
+  
+    
+
+    doctorContainer.innerHTML += doctor_detail
+
+  })
+
+
+    doctorContainer.addEventListener("click", (e) => {
+      if (e.target.innerText === "Edit Doctor Bio") {
+        
+      };
+    })
+  }
+
+
+  
+
+  
+
+  
+
+
+    
+  
 
 
 
 
 
+
+  
 
 
 
@@ -118,4 +157,5 @@ appointmentList.addEventListener('click', renderDetailedAppointment)
 
 
 //  invoked functions
-loginScreen()
+//loginScreen()
+fetchDoctors()

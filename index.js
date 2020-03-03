@@ -3,7 +3,7 @@
 APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments/"
 
 const appointmentList = document.querySelector(".appointment-list")
-
+const appDetailPanel = document.querySelector(".appointment-detail-panel")
 
 
 
@@ -25,7 +25,35 @@ const renderAppointments = (appointments) => {
   })
 }
 
+const renderDetailedAppointment = (event) => {
 
+  if (event.target.tagName === "LI") {
+    console.log("IM AN LI", event.target)
+    clicked = event.target
+    const appointmentId = event.target.dataset.id
+    fetch(`${APPOINTMENTS_ENDPOINT}/${appointmentId}`)
+      .then(resp => resp.json())
+      .then(appointment => renderOneAppointment(appointment))
+      .catch(err => console.log(err))
+  }
+}
+
+const renderOneAppointment = (appointment) => {
+  console.log("APPT", appointment)
+  appDetailPanel.dataset.id = appointment.id
+  const appt_detail = `<h1>${appointment.patient.full_name}</h1><img src="${appointment.patient.image}" alt="patient photo">
+    <h2>Pre-existing Medical Conditions: ${appointment.patient.health_conditions}</h2>
+    <h3>Age: ${appointment.patient.age} years</h3>
+    <h3>Height: ${appointment.patient.height_string}</h3>
+    <h3>Weight: ${appointment.patient.weight} pounds</h3>
+    <h3>Email: ${appointment.patient.email}</h3>
+    <form>
+      <input type="textarea" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
+      <input type="textarea" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
+      <input type="submit" name="Submit" value="Submit">
+    </form>`
+  appDetailPanel.innerHTML = appt_detail
+}
 
 
 
@@ -37,7 +65,7 @@ const renderAppointments = (appointments) => {
 
 
 //  event listeners
-
+appointmentList.addEventListener('click', renderDetailedAppointment)
 
 
 
@@ -45,4 +73,4 @@ const renderAppointments = (appointments) => {
 
 
 //  invoked functions
-fetchAppointments()
+// fetchAppointments()

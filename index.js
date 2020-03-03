@@ -47,8 +47,11 @@ const renderOneAppointment = (appointment) => {
     <h3>Height: ${appointment.patient.height_string}</h3>
     <h3>Weight: ${appointment.patient.weight} pounds</h3>
     <h3>Email: ${appointment.patient.email}</h3>
-    <textarea name="diagnosis" placeholder="Enter Diagnosis" rows="8" cols="80"></textarea>
-    <textarea name="directions" placeholder="Enter Directions For Patient" rows="8" cols="80"></textarea>`
+    <form>
+      <input type="textarea" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
+      <input type="textarea" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
+      <input type="submit" name="Submit" value="Submit">
+    </form>`
   appDetailPanel.innerHTML = appt_detail
 }
 
@@ -72,4 +75,4 @@ appointmentList.addEventListener('click', renderDetailedAppointment)
 
 
 //  invoked functions
-fetchAppointments()
+// fetchAppointments()

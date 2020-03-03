@@ -6,7 +6,7 @@
 
 //  defined variables
 
-APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments/"
+const APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments/"
 
 const appointmentList = document.querySelector(".appointment-list")
 const appDetailPanel = document.querySelector(".appointment-detail-panel")
@@ -63,11 +63,41 @@ const renderOneAppointment = (appointment) => {
     <h3>Weight: ${appointment.patient.weight} pounds</h3>
     <h3>Email: ${appointment.patient.email}</h3>
     <form>
-      <input type="textarea" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
-      <input type="textarea" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
+      <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
+      <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
       <input type="submit" name="Submit" value="Submit">
     </form>`
   appDetailPanel.innerHTML = appt_detail
+
+  const formContainer = document.querySelector("form")
+
+  formContainer.addEventListener('submit', function(e){
+    e.preventDefault()
+    const formData = {
+      diagonsis: e.target[0].value,
+      directions: e.target[1].value
+    }
+    
+    console.log(formData)
+    e.target.reset()
+
+    const reqObj = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(formData)
+    }
+
+    const patientId = e.target.parentElement.dataset.id
+
+    fetch(`${APPOINTMENTS_ENDPOINT}${patientId}`, reqObj)
+    .then( resp => resp.json())
+    .then( data => console.log(data))
+    .catch( err => console.log(err))
+
+  })
 }
 
 
@@ -88,7 +118,6 @@ appointmentList.addEventListener('click', renderDetailedAppointment)
 
 
 
-
 //  invoked functions
-// fetchAppointments()
-loginScreen()
+fetchAppointments()
+// loginScreen()

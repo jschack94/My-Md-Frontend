@@ -21,8 +21,6 @@ const renderDoctorHomeScreen = (event) => {
   event.preventDefault()
   const clicked = event.target
   const doctorEmail = clicked.children[2].value
-
-  debugger
 }
 
 const loginScreen = () => {

@@ -55,10 +55,15 @@ const renderErrors = (err) => {
 const renderAppointments = (appointments) => {
   console.log("HI", appointments)
   appointments.forEach(app => {
-    appLI = `<li data-id="${app.id}">${app.stringified_date} with ${app.patient.full_name}</li>`
+    appLI = `<li data-id="${app.id}">${app.stringified_date} with ${app.patient.full_name} <button type="button" class="deletebtn">Delete Appointment</button></li>` // added delete button 
     appointmentList.innerHTML += appLI
   })
 }
+
+// delete appointment action
+// function deleteAppointment(){
+
+// }
 
 const renderDetailedAppointment = (event) => {
 
@@ -94,7 +99,7 @@ const renderOneAppointment = (appointment) => {
   formContainer.addEventListener('submit', function(e){
     e.preventDefault()
     const formData = {
-      diagonsis: e.target[0].value,
+      diagnosis: e.target[0].value,
       directions: e.target[1].value
     }
     

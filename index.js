@@ -10,11 +10,20 @@ const appDetailPanel = document.querySelector(".appointment-detail-panel")
 
 //  defined functions
 
+const loginScreen = () => {
+  const loginDiv = document.createElement("div")
+  loginDiv.innerHTML = "TEST"
+}
+
 const fetchAppointments = () => {
     fetch(APPOINTMENTS_ENDPOINT)
         .then(resp => resp.json())
         .then(appointments => renderAppointments(appointments))
         .catch(err => renderErrors(err))
+}
+
+const renderErrors = (err) => {
+  appointmentList.innerHTML = `<h1>The following errors prevented the data from fetching. ${err}. Make sure rails server is running.`
 }
 
 const renderAppointments = (appointments) => {
@@ -74,3 +83,4 @@ appointmentList.addEventListener('click', renderDetailedAppointment)
 
 //  invoked functions
 // fetchAppointments()
+loginScreen()

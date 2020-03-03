@@ -53,7 +53,6 @@ const loginScreen = () => {
 }
 
 const renderDoctorHomeScreen = (doctor) => {
-
   console.log(doctor.appointments)
   body.innerHTML = ""
   const doctorDiv = document.createElement('div')
@@ -125,7 +124,7 @@ const renderOneAppointment = (appointment) => {
 
     const patientId = e.target.parentElement.dataset.id
 
-    fetch(`${APPOINTMENTS_ENDPOINT}${patientId}`, reqObj)
+    fetch(`${APPOINTMENTS_ENDPOINT}/${patientId}`, reqObj)
     .then( resp => resp.json())
     .then( data => console.log(data))
     .catch( err => console.log(err))

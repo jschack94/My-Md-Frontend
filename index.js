@@ -61,6 +61,8 @@ const renderOneAppointment = (appointment) => {
 
 
 
+
+
 //  event listeners
 appointmentList.addEventListener('click', renderDetailedAppointment)
 

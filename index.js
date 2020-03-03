@@ -1,3 +1,9 @@
+//  IMPORTANT COMMENTS ************
+// in order to test the doctor homescreen, uncomment the fetchAppointments function call at bottom of file
+//  IMPORTANT COMMENTS ************
+// feel free to add more comments here!!! *****
+
+
 //  defined variables
 
 APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments/"

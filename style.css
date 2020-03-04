@@ -1,4 +1,4 @@
-img {
+/* img {
     max-width:50%;
     height:auto;
 }
@@ -69,5 +69,130 @@ footer {
     height: auto;
     padding: 15px;
   }
-  .row.content {height:auto;} 
+  .row.content {height:auto;}
+} */
+
+body {
+  font-family: "Lato", sans-serif;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+.openbtn:hover {
+  background-color: #444;
+}
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+img {
+    max-width:70%;
+    border-radius: 20%;
+    height:auto;
+    width: auto;
+    max-width: 100px;
+    max-height: 100px;
+}
+input {
+  font-family: times;
+}
+.login-form {
+  text-align: center;
+  align: center;
+  margin-top: 110px;
+  font-size: 40px;
+}
+#myMDLogo {
+  text-align: right;
+  margin-top: -700px;
+  margin-left: -500px;
+  font-size: 100px;
+}
+img.medical-image {
+  text-align: right;
+  margin-top: -50px;
+  height: auto;
+  width: auto;
+  max-width: 250px;
+  max-height: 150px;
+}
+.login-email {
+  font-size: 30px;
+}
+.login-submit {
+  font-size: 30px;
+}
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {height: 450px}
+/* Set gray background color and 100% height */
+.sidenav {
+  padding-top: 20px;
+  background-color: #f1f1f1;
+  height: 100%;
+}
+body, html {
+  height: 100%;
+  margin: 0;
+}
+.bg {
+  /* The image used */
+  background-image: url("https://mdbootstrap.com/img/Photos/Others/architecture.jpg");
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

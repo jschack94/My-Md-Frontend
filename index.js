@@ -266,6 +266,17 @@ const renderDetailedAppointment = (event) => {
       .catch(err => console.log(err))
   }
 }
+
+
+  const renderUpdatedAppt = (eventTarget, apptInfo) => {
+    // debugger
+    const appointmentInfoPanel = document.querySelector("#appointment-info")
+    const apptDiagnosis = apptInfo.diagnosis
+    const apptDirections = apptInfo.directions
+    const apptInfoDiv = `<p>Diagnosis: ${apptDiagnosis}</p><p>Directions for patient: ${apptDirections}</p>`
+    appointmentInfoPanel.innerHTML += apptInfoDiv
+  }
+
 const renderOneAppointment = (appointment) => {
   console.log("APPT", appointment)
   const appointmentInfoPanel = document.querySelector("#appointment-info")
@@ -289,6 +300,56 @@ const renderOneAppointment = (appointment) => {
     <h3>Weight: ${patient.weight} pounds</h3>
     <h3>Email: ${patient.email}</h3>`
     patientInfoPanel.innerHTML = patientDetail
+
+    const updatePatient = document.querySelector(".update-patient-info")
+
+    updatePatient.addEventListener('click', function(e){
+      if(e.target.className === 'update-patient-info')
+      console.log(e.target.value, "button clicked") 
+      const patientID = e.target.dataset.id
+      const newPatientDetails = `<form class="update-patient-btn" data-id="${patientID}">
+      <input type="text" rows="4" cols="50" name="age" placeholder="Age" value="">
+      <input type="text" rows="4" cols="50" name="height" placeholder="Height:" name="" value="">
+      <input type="text" rows="4" cols="50" name="weight" placeholder="Weight" value="">
+      <input type="text" rows="4" cols="50" name="email" placeholder="Email:" name="" value="">
+      <input type="submit" name="Submit" value="Submit">
+    </form>`
+    patientInfoPanel.innerHTML = newPatientDetails
+      
+      const patientUpdateBtn = document.querySelector('.update-patient-btn')
+      // add eventlistenr on form
+      // update patient details
+      patientUpdateBtn.addEventListener('submit', function(e){
+        e.preventDefault()
+        const patientID = e.target.dataset.id
+        const eventTarget = e.target
+        // debugger
+        console.log(e)
+        const formData = {
+          age: e.target[0].value,
+          height: e.target[1].value,
+          weight: e.target[2].value,
+          email: e.target[3].value
+        }
+        // debugger
+        const reqObj = {
+          method: "PATCH",
+          headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json"
+          },
+          body: JSON.stringify(formData)
+        }
+        fetch(`${PATIENTS_ENDPOINT}/${patientID}`, reqObj)
+        .then( resp => resp.json())
+        .then( patientInfo => console.log(patientInfo))
+        .catch(err => console.log(err))
+        
+      
+      })
+    })
+
+
   const formContainer = document.querySelector("form")
   formContainer.addEventListener('submit', function(e){
     e.preventDefault()
@@ -311,9 +372,15 @@ const renderOneAppointment = (appointment) => {
     .then( resp => resp.json())
     .then( data => console.log(data))
     .catch( err => console.log(err))
-  })
-}
 
+  
+
+  })
+
+  
+
+
+}
 
 
 
@@ -321,4 +388,6 @@ const renderOneAppointment = (appointment) => {
 // appointments.addEventListener('click', renderDetailedAppointment)
   
 //  invoked functions
+
 loginScreen()
+

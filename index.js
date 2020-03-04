@@ -301,6 +301,8 @@ const renderOneAppointment = (appointment) => {
     <h3>Email: ${patient.email}</h3>
     <button type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
     patientInfoPanel.innerHTML = patientDetail
+
+  
     const updatePatient = document.querySelector(".update-patient-info")
     updatePatient.addEventListener('click', function(e){
       if(e.target.className === 'update-patient-info')
@@ -313,7 +315,9 @@ const renderOneAppointment = (appointment) => {
       <input type="text" rows="4" cols="50" name="email" placeholder="Email:" name="" value="">
       <input type="submit" name="Submit" value="Submit">
     </form>`
-    patientInfoPanel.innerHTML = newPatientDetails
+    
+      patientInfoPanel.innerHTML = newPatientDetails
+
       const patientUpdateBtn = document.querySelector('.update-patient-btn')
       // add eventlistenr on form
       // update patient details
@@ -355,16 +359,10 @@ const renderOneAppointment = (appointment) => {
           <button type="button" name="button" data-id="${patientInfo.id}" class="update-patient-info">Update Patient Info</button>`
 
           patientInfoPanel.innerHTML = updatedPatientForm
-          
-          
-          
-          
         }
-        
-
-
       })
     })
+
   const formContainer = document.querySelector(".appointment-details")
   formContainer.addEventListener('submit', function(e){
     e.preventDefault()

@@ -7,10 +7,7 @@ const appDetailPanel = document.querySelector(".appointment-detail-panel")
 const doctorContainer = document.querySelector(".doctor-container")
 const body = document.querySelector("body")
 let doctorsData
-let editDoctor = true
-
-
-
+let editDoctor = true;
 
 
 //  defined functions
@@ -35,6 +32,7 @@ const fetchDoctorFromLogin = (event) => {
           
       })
     }
+
 const loginScreen = () => {
   const loginDiv = document.createElement("div")
 
@@ -200,6 +198,23 @@ const createNewAppointment = (event) => {
     .then(doctor => populateAppointmentForm(clicked, doctor))
     .catch(err => renderErrors(err))
 }
+
+const postAppObj = (patientId, date, time, doctorId) => {
+  return {
+    method: "POST",
+    headers: {
+      "Content-Type":"application/json",
+      "Accept":"application/json"
+    },
+    body: JSON.stringify({
+      patient_id: patientId,
+      doctor_id: doctorId,
+      date: date,
+      time: time
+    })
+  }
+}
+
 const postNewAppointment = (event) => {
   event.preventDefault()
   console.log("POST NEW APP", event.target)
@@ -208,9 +223,18 @@ const postNewAppointment = (event) => {
   const date = event.target.children[2].value
   const time = event.target.children[3].value
   const doctorId = parseInt(event.target.dataset.id)
-  debugger
-  fetch(APPOINTMENTS_ENDPOINT, postAppObj())
+  // make time string the right format to send to back end.
+  //  double check the format for the request object.
+  fetch(APPOINTMENTS_ENDPOINT, postAppObj(patientId, date, time, doctorId))
+    .then(resp => resp.json())
+    .then(newApp => renderNewAppointment(newApp))
+    .catch(err => renderErrors(err))
 }
+
+const renderNewAppointment = (newApp) => {
+  console.log("NEWAPP", newApp)
+}
+
 const populateAppointmentForm = (clicked, doctor) => {
   console.log("POPULATE APPOINTMENT FORM", clicked)
     const appointments = document.querySelector('#appointment-list')
@@ -382,21 +406,10 @@ const renderOneAppointment = (appointment) => {
   })
 }
 
- 
-
-
-
-//  event listeners
-appointmentList.addEventListener('click', renderDetailedAppointment)
-
-
-
-
-
-
 
 //  event listeners
 // appointments.addEventListener('click', renderDetailedAppointment)
+  
 //  invoked functions
 loginScreen()
 

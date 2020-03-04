@@ -101,7 +101,7 @@ const renderDoctorHomeScreen = (doctor) => {
 let d = new Date();
 const doctorDiv = document.createElement('div')
 const welcomePanel = body.children[0].children[1]
-debugger
+
 welcomePanel.innerHTML = `<div class="bg" id="time"><h1><h1>Welcome Dr. ${doctor.last_name} </h1><h4> Today is: ${d} </h4></div>`
 const createAppointmentColumn = body.children[0].children[2].children[0]
 doctorDiv.innerHTML =
@@ -127,7 +127,7 @@ welcomeDiv.innerHTML =
 `<h2> </h2>
 </div>`
 body.append(welcomeDiv)
-debugger
+
 const appointments = document.querySelector('#appointment-list')
 doctor.appointments.forEach(app => {
     const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
@@ -153,6 +153,17 @@ const renderDetailedAppointment = (event) => {
       .catch(err => console.log(err))
   }
 }
+
+  const renderUpdatedAppt = (eventTarget, apptInfo) => {
+    // debugger
+    const appointmentInfoPanel = document.querySelector("#appointment-info")
+    const apptDiagnosis = apptInfo.diagnosis
+    const apptDirections = apptInfo.directions
+    const apptInfoDiv = `<p>Diagnosis: ${apptDiagnosis}</p><p>Directions for patient: ${apptDirections}</p>`
+    appointmentInfoPanel.innerHTML += apptInfoDiv
+  }
+
+
 const renderOneAppointment = (appointment) => {
   console.log("APPT", appointment)
   const appointmentInfoPanel = document.querySelector("#appointment-info")
@@ -174,7 +185,8 @@ const renderOneAppointment = (appointment) => {
     <h3>Age: ${patient.age} years</h3>
     <h3>Height: ${patient.height_string}</h3>
     <h3>Weight: ${patient.weight} pounds</h3>
-    <h3>Email: ${patient.email}</h3>`
+    <h3>Email: ${patient.email}</h3>
+    <button type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
     patientInfoPanel.innerHTML = patientDetail
   const formContainer = document.querySelector("form")
   formContainer.addEventListener('submit', function(e){
@@ -193,10 +205,11 @@ const renderOneAppointment = (appointment) => {
       },
       body: JSON.stringify(formData)
     }
+    const eventTarget = e.target
     const patientId = e.target.parentElement.dataset.id
     fetch(`${APPOINTMENTS_ENDPOINT}/${patientId}`, reqObj)
     .then( resp => resp.json())
-    .then( data => console.log(data))
+    .then( apptInfo => renderUpdatedAppt(eventTarget, apptInfo))
     .catch( err => console.log(err))
   })
 }

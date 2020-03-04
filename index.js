@@ -7,6 +7,7 @@ const appDetailPanel = document.querySelector(".appointment-detail-panel")
 const doctorContainer = document.querySelector(".doctor-container")
 const body = document.querySelector("body")
 let doctorsData
+
 //  defined functions
 const fetchDoctorFromLogin = (event) => {
   event.preventDefault()
@@ -25,6 +26,7 @@ const fetchDoctorFromLogin = (event) => {
           .catch(err => renderErrors(err))
       })
     }
+
 const loginScreen = () => {
   const loginDiv = document.createElement("div")
   body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://lh3.googleusercontent.com/proxy/PX0WUR0sjR0yStrVaTa_rkeNzrhePCccKGyIyUjX9TNRhxkAqbF4AQMD5t_fAWAPs99F8W2kQKmj3Th8pshCvF53uU1tOngQVOQldgvxt-rsn3Ukc_GAeR8ZB1uNZfs37Zs_hRUJ3vW35-4nte4WHQlI8jk0" alt="medical-symbol"><div class="login" id="login">
@@ -37,6 +39,7 @@ const loginScreen = () => {
   const loginForm = document.querySelector(".login-form")
   loginForm.addEventListener('submit', fetchDoctorFromLogin)
 }
+
 const createNewAppointment = (event) => {
   const clicked = event.target
   const doctorId = clicked.dataset.id
@@ -45,6 +48,23 @@ const createNewAppointment = (event) => {
     .then(doctor => populateAppointmentForm(clicked, doctor))
     .catch(err => renderErrors(err))
 }
+
+const postAppObj = (patientId, date, time, doctorId) => {
+  return {
+    method: "POST",
+    headers: {
+      "Content-Type":"application/json",
+      "Accept":"application/json"
+    },
+    body: JSON.stringify({
+      patient_id: patientId,
+      doctor_id: doctorId,
+      date: date,
+      time: time
+    })
+  }
+}
+
 const postNewAppointment = (event) => {
   event.preventDefault()
   console.log("POST NEW APP", event.target)
@@ -53,9 +73,18 @@ const postNewAppointment = (event) => {
   const date = event.target.children[2].value
   const time = event.target.children[3].value
   const doctorId = parseInt(event.target.dataset.id)
-  debugger
-  fetch(APPOINTMENTS_ENDPOINT, postAppObj())
+  // make time string the right format to send to back end.
+  //  double check the format for the request object.
+  fetch(APPOINTMENTS_ENDPOINT, postAppObj(patientId, date, time, doctorId))
+    .then(resp => resp.json())
+    .then(newApp => renderNewAppointment(newApp))
+    .catch(err => renderErrors(err))
 }
+
+const renderNewAppointment = (newApp) => {
+  console.log("NEWAPP", newApp)
+}
+
 const populateAppointmentForm = (clicked, doctor) => {
   console.log("POPULATE APPOINTMENT FORM", clicked)
     const appointments = document.querySelector('#appointment-list')
@@ -101,7 +130,7 @@ const renderDoctorHomeScreen = (doctor) => {
 let d = new Date();
 const doctorDiv = document.createElement('div')
 const welcomePanel = body.children[0].children[1]
-debugger
+
 welcomePanel.innerHTML = `<div class="bg" id="time"><h1><h1>Welcome Dr. ${doctor.last_name} </h1><h4> Today is: ${d} </h4></div>`
 const createAppointmentColumn = body.children[0].children[2].children[0]
 doctorDiv.innerHTML =
@@ -127,7 +156,7 @@ welcomeDiv.innerHTML =
 `<h2> </h2>
 </div>`
 body.append(welcomeDiv)
-debugger
+
 const appointments = document.querySelector('#appointment-list')
 doctor.appointments.forEach(app => {
     const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`

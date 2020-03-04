@@ -284,7 +284,7 @@ const renderOneAppointment = (appointment) => {
   const apptDetail = `<h1>Appointment Details</h1>
     <h3>Date: ${appointment.stringified_date}</h3>
     <h3>Time: ${appointment.stringified_time}</h3>
-    <form>
+    <form class="appointment-details">
       <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
       <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
       <input type="submit" name="Submit" value="Submit">
@@ -340,11 +340,32 @@ const renderOneAppointment = (appointment) => {
         }
         fetch(`${PATIENTS_ENDPOINT}/${patientID}`, reqObj)
         .then( resp => resp.json())
-        .then( patientInfo => console.log(patientInfo))
+        .then( patientInfo => renderUpdatedPatient(patientInfo))
         .catch(err => console.log(err))
+
+        function renderUpdatedPatient(patientInfo){
+          const patientInfoPanel = document.querySelector("#patient-info")
+
+          const updatedPatientForm = `<h1>Patient Details</h1><h1>${patientInfo.full_name}</h1><img src="${patientInfo.image}" alt="patient photo">
+          <h2>Pre-existing Medical Conditions: ${patient.health_conditions}</h2>
+          <h3>Age: ${patientInfo.age} years</h3>
+          <h3>Height: ${patientInfo.height_string}</h3>
+          <h3>Weight: ${patientInfo.weight} pounds</h3>
+          <h3>Email: ${patientInfo.email}</h3>
+          <button type="button" name="button" data-id="${patientInfo.id}" class="update-patient-info">Update Patient Info</button>`
+
+          patientInfoPanel.innerHTML = updatedPatientForm
+          
+          
+          
+          
+        }
+        
+
+
       })
     })
-  const formContainer = document.querySelector("form")
+  const formContainer = document.querySelector(".appointment-details")
   formContainer.addEventListener('submit', function(e){
     e.preventDefault()
     const formData = {

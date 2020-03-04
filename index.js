@@ -132,7 +132,7 @@ doctorDiv.dataset.id = doctor.id
 
 var d = new Date();
 //const welcomePanel = body.children[0].children[1]
-doctorDiv.innerHTML = 
+doctorDiv.innerHTML =
 
 `<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240);>
 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -154,7 +154,7 @@ doctorDiv.innerHTML =
         placeholder="Edit Bio"
         class="input-text"
       />
-     
+
       <input
         type="text"
         name="email"
@@ -162,7 +162,7 @@ doctorDiv.innerHTML =
         placeholder="Edit Email"
         class="input-text"
       />
-     
+
       <input
         type="text"
         name="image"
@@ -179,7 +179,7 @@ doctorDiv.innerHTML =
     </form>
   </div>
 <div id="main">
-<button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>  
+<button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
 
 </div>
 <div class="container">
@@ -204,13 +204,13 @@ editBtn.addEventListener('click', () => { // hide & seek with the form
 })
 
 doctorContainer.addEventListener("submit", (e) => {
-   
+
   e.preventDefault();
-  
+
   if (e.target.className === "edit-doctor-form") {
 
-    
-      
+
+
       const formData = {
         bio: e.target[0].value,
         email: e.target[1].value,
@@ -218,7 +218,7 @@ doctorContainer.addEventListener("submit", (e) => {
       };
 
       e.target.reset()
-  
+
       const reqObj = {
         method: "PATCH",
         headers: {
@@ -227,17 +227,17 @@ doctorContainer.addEventListener("submit", (e) => {
         },
         body: JSON.stringify(formData)
       };
-      
+
       fetch( DOCTORS_ENDPOINT + "/" + e.target.dataset.id, reqObj)
         .then((resp) => resp.json())
         .then((data) => {
           alert(`Success`);
-        
-          
-             
+
+
+
         })
       }
-    })  
+    })
 
 
 
@@ -298,14 +298,13 @@ const renderOneAppointment = (appointment) => {
     <h3>Age: ${patient.age} years</h3>
     <h3>Height: ${patient.height_string}</h3>
     <h3>Weight: ${patient.weight} pounds</h3>
-    <h3>Email: ${patient.email}</h3>`
+    <h3>Email: ${patient.email}</h3>
+    <button type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
     patientInfoPanel.innerHTML = patientDetail
-
     const updatePatient = document.querySelector(".update-patient-info")
-
     updatePatient.addEventListener('click', function(e){
       if(e.target.className === 'update-patient-info')
-      console.log(e.target.value, "button clicked") 
+      console.log(e.target.value, "button clicked")
       const patientID = e.target.dataset.id
       const newPatientDetails = `<form class="update-patient-btn" data-id="${patientID}">
       <input type="text" rows="4" cols="50" name="age" placeholder="Age" value="">
@@ -315,7 +314,6 @@ const renderOneAppointment = (appointment) => {
       <input type="submit" name="Submit" value="Submit">
     </form>`
     patientInfoPanel.innerHTML = newPatientDetails
-      
       const patientUpdateBtn = document.querySelector('.update-patient-btn')
       // add eventlistenr on form
       // update patient details
@@ -344,12 +342,8 @@ const renderOneAppointment = (appointment) => {
         .then( resp => resp.json())
         .then( patientInfo => console.log(patientInfo))
         .catch(err => console.log(err))
-        
-      
       })
     })
-
-
   const formContainer = document.querySelector("form")
   formContainer.addEventListener('submit', function(e){
     e.preventDefault()
@@ -367,27 +361,19 @@ const renderOneAppointment = (appointment) => {
       },
       body: JSON.stringify(formData)
     }
+    const eventTarget = e.target
     const patientId = e.target.parentElement.dataset.id
     fetch(`${APPOINTMENTS_ENDPOINT}/${patientId}`, reqObj)
     .then( resp => resp.json())
-    .then( data => console.log(data))
+    .then( apptInfo => renderUpdatedAppt(eventTarget, apptInfo))
     .catch( err => console.log(err))
-
-  
-
   })
-
-  
-
-
 }
-
 
 
 //  event listeners
 // appointments.addEventListener('click', renderDetailedAppointment)
-  
+
 //  invoked functions
 
 loginScreen()
-

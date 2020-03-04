@@ -52,19 +52,67 @@ const loginScreen = () => {
 
 }
 
+const createNewAppointment = (event) => {
+  const clicked = event.target
+  const doctorId = clicked.dataset.id
+  fetch(`${DOCTORS_ENDPOINT}/${doctorId}`)
+    .then(resp => resp.json())
+    .then(doctor => populateAppointmentForm(clicked, doctor))
+    .catch(err => renderErrors(err))
+}
+
+const populateAppointmentForm = (clicked, doctor) => {
+  console.log(clicked)
+    const appointments = document.querySelector('#appointment-list')
+    const createAppForm = `<form class="create-appointment" action="index.html" method="post">
+    </form>`
+    // const patientSelect = document.createElement('select')
+    // createAppForm.appendChild(patientSelect)
+    // debugger
+    // doctor.patients.forEach(patient => {
+    //   const patientOption = `<option value="">${patient.full_name}</option>`
+    // })
+    // patientSelect.innerHTML += patientOption
+    // appointments.innerHTML += createAppForm
+}
+
 const renderDoctorHomeScreen = (doctor) => {
-  console.log(doctor.appointments)
-  body.innerHTML = ""
-  const doctorDiv = document.createElement('div')
-  body.append(doctorDiv)
-  doctorDiv.dataset.id = doctor.id
-  doctorDiv.innerHTML = `<h1>Welcome Dr. ${doctor.last_name}</h1><img src="${doctor.image}" alt="doctor photo">
-    <h3>Email: ${doctor.email}</h3>`
-  body.append(appointmentList)
-    doctor.appointments.forEach(app => {
-      appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
-      appointmentList.innerHTML += appLI
-    })
+  // console.log(doctor.appointments)
+  // body.innerHTML = ""
+  // const doctorDiv = document.createElement('div')
+  // body.append(doctorDiv)
+  // doctorDiv.dataset.id = doctor.id
+  // doctorDiv.innerHTML = `<h1>Welcome Dr. ${doctor.last_name}</h1><img src="${doctor.image}" alt="doctor photo">
+  //   <h3>Email: ${doctor.email}</h3>`
+  // body.append(appointmentList)
+  //   doctor.appointments.forEach(app => {
+  //     appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
+  //     appointmentList.innerHTML += appLI
+  //   })
+  body.innerHTML =
+  `<div class="container" id="${doctor.id}">
+    <h1 class="display-1" style="font-size: 100px; text-align:right;">myMD</h1>
+    <h1 class="display-1" style="font-size: 40px;">Welcome Dr. ${doctor.last_name}</h1>
+
+  <div class="row" style="font-size:20px;">
+    <div class="col-sm-4" id="appointment-list"><h1>My Appointments</h1></div>
+    <div class="col-sm-4" id="patient-info"><h1>Patient Info</h1></div>
+    <div class="col-sm-4" id="appointment-info"><h1>Appointment Info</h1></div>
+  </div>
+</div>`
+
+const appointments = document.querySelector('#appointment-list')
+doctor.appointments.forEach(app => {
+    const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
+    appointments.innerHTML += appLI
+  })
+  const createApp = `<button type="button" name="button" data-id="${doctor.id}" class="create-appointment">Create New Appointment</button>`
+  appointments.innerHTML += createApp
+  const createAppButton = document.querySelector(".create-appointment")
+
+  createAppButton.addEventListener('click', createNewAppointment)
+
+  appointments.addEventListener('click', renderDetailedAppointment)
 }
 
 const renderErrors = (err) => {
@@ -86,20 +134,31 @@ const renderDetailedAppointment = (event) => {
 
 const renderOneAppointment = (appointment) => {
   console.log("APPT", appointment)
-  body.append(appDetailPanel)
-  appDetailPanel.dataset.id = appointment.id
-  const appt_detail = `<h1>${appointment.patient.full_name}</h1><img src="${appointment.patient.image}" alt="patient photo">
-    <h2>Pre-existing Medical Conditions: ${appointment.patient.health_conditions}</h2>
-    <h3>Age: ${appointment.patient.age} years</h3>
-    <h3>Height: ${appointment.patient.height_string}</h3>
-    <h3>Weight: ${appointment.patient.weight} pounds</h3>
-    <h3>Email: ${appointment.patient.email}</h3>
+  const appointmentInfoPanel = document.querySelector("#appointment-info")
+  appointmentInfoPanel.dataset.id = appointment.id
+  const apptDetail = `<h1>Appointment Details</h1>
+    <h3>Date: ${appointment.stringified_date}</h3>
+    <h3>Time: ${appointment.stringified_time}</h3>
     <form>
       <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
       <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
       <input type="submit" name="Submit" value="Submit">
     </form>`
-  appDetailPanel.innerHTML = appt_detail
+
+  appointmentInfoPanel.innerHTML = apptDetail
+
+  // render one patient
+  const patient = appointment.patient
+  const patientInfoPanel = document.querySelector("#patient-info")
+
+
+  const patientDetail = `<h1>Patient Details</h1><h1>${patient.full_name}</h1><img src="${patient.image}" alt="patient photo">
+    <h2>Pre-existing Medical Conditions: ${patient.health_conditions}</h2>
+    <h3>Age: ${patient.age} years</h3>
+    <h3>Height: ${patient.height_string}</h3>
+    <h3>Weight: ${patient.weight} pounds</h3>
+    <h3>Email: ${patient.email}</h3>`
+    patientInfoPanel.innerHTML = patientDetail
 
   const formContainer = document.querySelector("form")
 
@@ -188,7 +247,7 @@ const renderDoctors = (doctors) => {
 
 
 //  event listeners
-appointmentList.addEventListener('click', renderDetailedAppointment)
+// appointments.addEventListener('click', renderDetailedAppointment)
 
 
 

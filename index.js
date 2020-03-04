@@ -11,6 +11,7 @@ const body = document.querySelector("body")
 let doctorsData
 
 
+
 //  defined functions
 
 const fetchDoctorFromLogin = (event) => {
@@ -37,10 +38,13 @@ const fetchDoctorFromLogin = (event) => {
 
 const loginScreen = () => {
   const loginDiv = document.createElement("div")
+
   body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://lh3.googleusercontent.com/proxy/PX0WUR0sjR0yStrVaTa_rkeNzrhePCccKGyIyUjX9TNRhxkAqbF4AQMD5t_fAWAPs99F8W2kQKmj3Th8pshCvF53uU1tOngQVOQldgvxt-rsn3Ukc_GAeR8ZB1uNZfs37Zs_hRUJ3vW35-4nte4WHQlI8jk0" alt="medical-symbol"><div class="login" id="login">
+
     <form class="login-form" action="index.html" method="post">
       <label for="login-form">Please Enter Email to Login</label><br>
       <input class="login-email" type="text" name="email" value="">
+      
       <input class="login-submit" type="submit" name="Submit" value="Submit">
       </form>
   </div>`
@@ -156,6 +160,49 @@ doctor.appointments.forEach(app => {
   appointments.innerHTML += createApp
   const createAppButton = document.querySelector(".create-appointment")
 
+  console.log(doctor.appointments)
+  body.innerHTML = ""
+  
+  const doctorDiv = document.createElement('div')
+  doctorDiv.dataset.id = doctor.id
+
+  var d = new Date();
+  doctorDiv.innerHTML = `<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240);>
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <h2>Welcome Dr. ${doctor.last_name} </h2> <p> <img src="${doctor.image}" alt="doctor photo" > </p>
+  <h3>Specialty: </h3> <p> ${doctor.specialty}</p>
+  <h3>Bio: </h3> <p> ${doctor.bio}</p>
+  <h3>Residency </h3> <p> ${doctor.residency}</p>
+  <h3>Email: </h3> <p> ${doctor.email}</p>
+</div>
+<div id="main">
+  <button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>  
+  
+</div>`
+
+body.append(doctorDiv)
+
+const welcomeDiv = document.createElement('div')
+welcomeDiv.innerHTML = 
+`<div class="container">
+<div class="alert alert-success alert-dismissible fade show">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Success!</strong> You have successfully logged in.
+</div>
+<p> </p>
+<div>
+<h1>Welcome Dr. ${doctor.last_name}</h1>
+<h2> Today is: ${d} </h2>
+</div>`
+
+
+body.append(welcomeDiv)
+
+  body.append(appointmentList)
+    doctor.appointments.forEach(app => {
+      appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
+      appointmentList.innerHTML += appLI
+    })
   createAppButton.addEventListener('click', createNewAppointment)
 
   appointments.addEventListener('click', renderDetailedAppointment)
@@ -236,6 +283,7 @@ const renderOneAppointment = (appointment) => {
 
   })
 }
+
 
 //  event listeners
 // appointments.addEventListener('click', renderDetailedAppointment)

@@ -11,10 +11,11 @@
         <title>My MD</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        
     </head>
     <body>
         <h1 class="doctor-welcome"></h1>
-        <div class="doctor-container" id="doctor-container" ></div>
         <div class="appointment-container" id="appointment-container" >
           <ul class="appointment-list"></ul>
         </div>
@@ -23,6 +24,23 @@
         </div>
         <div class="patient-detail-panel">
         </div>
-        <script defer src="index.js" ></script>
+          </body>
+          
+        
+        <script> 
+function openNav() {
+    document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+                }
+                
+    function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    document.body.style.backgroundColor = "white";
+                }
+    </script>        
+                    
     </body>
+    <script defer src="index.js" ></script>
 </html>

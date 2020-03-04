@@ -5,6 +5,7 @@ const appointmentList = document.querySelector(".appointment-list")
 const appDetailPanel = document.querySelector(".appointment-detail-panel")
 const doctorContainer = document.querySelector(".doctor-container")
 const body = document.querySelector("body")
+const footer = document.querySelector(".footer")
 let doctorsData
 let editDoctor = true
 
@@ -29,9 +30,9 @@ const fetchDoctorFromLogin = (event) => {
 
 const loginScreen = () => {
   const loginDiv = document.createElement("div")
-  body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://lh3.googleusercontent.com/proxy/PX0WUR0sjR0yStrVaTa_rkeNzrhePCccKGyIyUjX9TNRhxkAqbF4AQMD5t_fAWAPs99F8W2kQKmj3Th8pshCvF53uU1tOngQVOQldgvxt-rsn3Ukc_GAeR8ZB1uNZfs37Zs_hRUJ3vW35-4nte4WHQlI8jk0" alt="medical-symbol"><div class="login" id="login">
+  body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://lh3.googleusercontent.com/proxy/BxPHZgDtikExm_mDhA3yCuDIH3htNAm633lxZ35G4DqNiNhyM-9Wve7A4DmojwBRqLwSUXJ57HQM9Y22OHfEPhfSOSy-pn0" alt="medical-symbol"><div class="login" id="login">
     <form class="login-form" action="index.html" method="post">
-      <label for="login-form">Please Enter Email to Login</label><br>
+      <label for="login-form"> <strong> <p> Manage Your Appointments </p> <p> Find Your Patients </p> <p> Access Your Results  </p>  </strong> <p> Please Enter Email to Login </p> </label><br>
       <input class="login-email" type="text" name="email" value="">
       <input class="login-submit" type="submit" name="Submit" value="Submit">
       </form>
@@ -115,26 +116,19 @@ const populateAppointmentForm = (clicked, doctor) => {
     createAppForm.addEventListener('submit', postNewAppointment)
 }
 const renderDoctorHomeScreen = (doctor) => {
+  var d = new Date();
   console.log("RENDERHOMESCREEN", doctor)
   body.innerHTML =
   `<div class="container" id="${doctor.id}">
-    <h1 class="display-1" style="font-size: 100px; text-align:right;">myMD</h1>
-    <h1 id="hold" class="display-1" style="font-size: 40px;"></h1>
-  <div class="row" style="font-size:20px;">
-    <div class="col-sm-4" id="appointment-list"><h1>My Appointments</h1></div>
-    <div class="col-sm-4" id="patient-info"><h1>Patient Info</h1></div>
-    <div class="col-sm-4" id="appointment-info"><h1>Appointment Info</h1></div>
+  <div class="alert alert-success alert-dismissible fade show">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Success!</strong> You have successfully logged in.
   </div>
-</div>`
-
-const doctorDiv = document.createElement('div')
-doctorDiv.dataset.id = doctor.id
-
-var d = new Date();
-//const welcomePanel = body.children[0].children[1]
-doctorDiv.innerHTML = 
-
-`<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240);>
+  <div id="main">
+  <h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1>
+  <div class="bg" id="time"><h1><h1>Welcome Dr. ${doctor.last_name} <p> <h3> Todays date is: ${d} </h3> </div>
+<button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
+<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240);>
 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
 <h2>Dr. ${doctor.full_name} </h2> <p> <img src="${doctor.image}" alt="doctor photo" > </p>
 <h3>Specialty: </h3> <p> ${doctor.specialty}</p>
@@ -142,11 +136,13 @@ doctorDiv.innerHTML =
 <h3>Residency </h3> <p> ${doctor.residency}</p>
 <h3>Email: </h3> <p> ${doctor.email}</p>
 </div>
-<div class="bg" id="time"><h1><h1>Welcome Dr. ${doctor.last_name} <p> <h3> Todays date is: ${d} </h3> </div>
-<div class="containers">
+
+</div>
+<div class="containers"> <p>
 <div> <button class="Edit-Btn">Edit Profile</button> </div>
     <form class="edit-doctor-form" data-id="${doctor.id}">
-      <h3>Edit Your Personal Information</h3>
+    <p>
+      <h3>Edit Your Personal Information:</h3>
       <input
         type="text"
         name="bio"
@@ -173,23 +169,26 @@ doctorDiv.innerHTML =
       <input
         type="submit"
         name="submit"
-        value="Edit"
+        value="Submit Changes"
         class="submit"
       />
     </form>
+  </div>  
+    <div class="container">
+    <h1 id="hold" class="display-1" style="font-size: 40px;"></h1>
+  <div class="row" style="font-size:20px;">
+    <div class="col-sm-4" id="appointment-list"><h1>My Appointments</h1></div>
+    <div class="col-sm-4" id="patient-info"><h1>Patient Info</h1></div>
+    <div class="col-sm-4" id="appointment-info"><h1>Appointment Info</h1></div>
   </div>
-<div id="main">
-<button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>  
-
-</div>
-<div class="container">
-<div class="alert alert-success alert-dismissible fade show">
-<button type="button" class="close" data-dismiss="alert">&times;</button>
-<strong>Success!</strong> You have successfully logged in.
 </div>`
 
-const holder = document.querySelector("#hold")
-holder.append(doctorDiv)
+const doctorDiv = document.createElement('div')
+doctorDiv.dataset.id = doctor.id
+
+
+//const welcomePanel = body.children[0].children[1]
+
 
 const doctorContainer = document.querySelector('.edit-doctor-form');
 const editBtn = document.querySelector('.Edit-Btn')
@@ -234,7 +233,7 @@ doctorContainer.addEventListener("submit", (e) => {
           alert(`Success`);
         
           
-             
+         
         })
       }
     })  
@@ -246,7 +245,7 @@ doctor.appointments.forEach(app => {
     const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
     appointments.innerHTML += appLI
   })
-  const createApp = `<button type="button" name="button" data-id="${doctor.id}" class="create-appointment">Create New Appointment</button>`
+  const createApp = `<button type="button" name="button" data-id="${doctor.id}" class="create-appointment" >+</button>`
   appointments.innerHTML += createApp
   const createAppButton = document.querySelector(".create-appointment")
   createAppButton.addEventListener('click', createNewAppointment)

@@ -38,25 +38,18 @@ const fetchDoctorFromLogin = (event) => {
 
 const loginScreen = () => {
   const loginDiv = document.createElement("div")
-  
 
-<<<<<<< HEAD
-  body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://lh3.googleusercontent.com/proxy/zVD9TeZrwHPJ48KJlBewq4nPAhIr2Wp88akB4-e-0hiZqNFcVFR9xVRvGoarn1W_oukeM4yz7w4dLBmE8A_BQcsOzSsqi9XUwtprZfC9031zAGEXMVo9hBLHpsw5JbM3UZdWWtIq12_SfFXD5dPiMNimL6P_" alt="medical-symbol"><div class="login" id="login">
-=======
-  body.innerHTML = `<h1 class="display-1" style="font-size: 100px;" id="myMDLogo">myMD</h1><br><img style="float: right; margin-right: 100px;" class="medical-image" src="https://images.squarespace-cdn.com/content/v1/5908027c20099e374ad3d70e/1498497433363-9FIJ7FA1O2O1OMU760YE/ke17ZwdGBToddI8pDm48kEIuZxI6W46qNPE4tOwAgJl7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0k6sq9GEl9ZUDkp1sRKcAyLcGm_zFFSj8V81weFb6OmoAJ4fht0OgyKA20Hd2KoDYQ/symbol-of-caduceus.jpg?format=2500w" alt="medical-symbol"><div class="login" id="login">
->>>>>>> f097d4800f2b55ec91c1eb7a45a5f4f8440d5476
+  body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://lh3.googleusercontent.com/proxy/PX0WUR0sjR0yStrVaTa_rkeNzrhePCccKGyIyUjX9TNRhxkAqbF4AQMD5t_fAWAPs99F8W2kQKmj3Th8pshCvF53uU1tOngQVOQldgvxt-rsn3Ukc_GAeR8ZB1uNZfs37Zs_hRUJ3vW35-4nte4WHQlI8jk0" alt="medical-symbol"><div class="login" id="login">
+
     <form class="login-form" action="index.html" method="post">
-      <label class="display-1" style="font-size: 50px;" for="login-form">Please Enter Email to Login</label><br>
+      <label for="login-form">Please Enter Email to Login</label><br>
       <input class="login-email" type="text" name="email" value="">
       
       <input class="login-submit" type="submit" name="Submit" value="Submit">
       </form>
   </div>`
-
   const loginForm = document.querySelector(".login-form")
-
   loginForm.addEventListener('submit', fetchDoctorFromLogin)
-
 }
 
 const createNewAppointment = (event) => {
@@ -68,34 +61,53 @@ const createNewAppointment = (event) => {
     .catch(err => renderErrors(err))
 }
 
+const postNewAppointment = (event) => {
+  event.preventDefault()
+  console.log("POST NEW APP", event.target)
+  const dropDown = document.getElementById("patient-dropdown");
+  const patientId = parseInt(dropDown.options[dropDown.selectedIndex].dataset.id)
+
+  const date = event.target.children[2].value
+  const time = event.target.children[3].value
+  const doctorId = parseInt(event.target.dataset.id)
+  debugger
+  fetch(APPOINTMENTS_ENDPOINT, postAppObj())
+}
+
 const populateAppointmentForm = (clicked, doctor) => {
-  console.log(clicked)
+  console.log("POPULATE APPOINTMENT FORM", clicked)
     const appointments = document.querySelector('#appointment-list')
-    const createAppForm = `<form class="create-appointment" action="index.html" method="post">
-    </form>`
-    // const patientSelect = document.createElement('select')
-    // createAppForm.appendChild(patientSelect)
-    // debugger
-    // doctor.patients.forEach(patient => {
-    //   const patientOption = `<option value="">${patient.full_name}</option>`
-    // })
-    // patientSelect.innerHTML += patientOption
-    // appointments.innerHTML += createAppForm
+    appointments.innerHTML = ""
+    const createAppForm = document.createElement('form')
+    const label = document.createElement('label')
+    const select = document.createElement('select')
+    select.id = "patient-dropdown"
+    label.innerText = "Create New Appointment"
+    appointments.appendChild(createAppForm)
+    createAppForm.className = "create-appointment"
+    createAppForm.dataset.id = doctor.id
+    createAppForm.append(label)
+    createAppForm.append(select)
+
+    doctor.patients.forEach(patient => {
+      const patientOption = `<option data-id=${patient.id}" selected="" value="">${patient.full_name}</option>`
+      select.innerHTML += patientOption
+    })
+    const date = document.createElement('input')
+    const time = document.createElement('input')
+    const submitButton = document.createElement('button')
+    submitButton.type = "submit"
+    submitButton.innerText = "Submit"
+    date.type = "date"
+    time.type = "time"
+    createAppForm.append(date)
+    createAppForm.append(time)
+    createAppForm.append(submitButton)
+    createAppForm.addEventListener('submit', postNewAppointment)
 }
 
 const renderDoctorHomeScreen = (doctor) => {
-  // console.log(doctor.appointments)
-  // body.innerHTML = ""
-  // const doctorDiv = document.createElement('div')
-  // body.append(doctorDiv)
-  // doctorDiv.dataset.id = doctor.id
-  // doctorDiv.innerHTML = `<h1>Welcome Dr. ${doctor.last_name}</h1><img src="${doctor.image}" alt="doctor photo">
-  //   <h3>Email: ${doctor.email}</h3>`
-  // body.append(appointmentList)
-  //   doctor.appointments.forEach(app => {
-  //     appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
-  //     appointmentList.innerHTML += appLI
-  //   })
+  console.log("RENDERHOMESCREEN", doctor)
   body.innerHTML =
   `<div class="container" id="${doctor.id}">
     <h1 class="display-1" style="font-size: 100px; text-align:right;">myMD</h1>
@@ -108,6 +120,37 @@ const renderDoctorHomeScreen = (doctor) => {
   </div>
 </div>`
 
+let d = new Date();
+const doctorDiv = document.createElement('div')
+const welcomePanel = body.children[0].children[1]
+debugger
+welcomePanel.innerHTML = `<div class="bg" id="time"><h1><h1>Welcome Dr. ${doctor.last_name} </h1><h4> Today is: ${d} </h4></div>`
+
+const createAppointmentColumn = body.children[0].children[2].children[0]
+doctorDiv.innerHTML =
+`<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240);>
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+<h2>Dr. ${doctor.full_name} </h2> <p> <img src="${doctor.image}" alt="doctor photo" > </p>
+<h3>Specialty: </h3> <p> ${doctor.specialty}</p>
+<h3>Bio: </h3> <p> ${doctor.bio}</p>
+<h3>Residency </h3> <p> ${doctor.residency}</p>
+<h3>Email: </h3> <p> ${doctor.email}</p>
+</div>
+<div id="main">
+<button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
+</div>
+<div class="container">
+<div class="alert alert-success alert-dismissible fade show">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<strong>Success!</strong> You have successfully logged in.
+</div>`
+// welcomePanel.append(doctorDiv)
+const welcomeDiv = document.createElement('div')
+welcomeDiv.innerHTML =
+`<h2> </h2>
+</div>`
+body.append(welcomeDiv)
+debugger
 const appointments = document.querySelector('#appointment-list')
 doctor.appointments.forEach(app => {
     const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
@@ -242,16 +285,10 @@ const renderOneAppointment = (appointment) => {
 }
 
 
-
-
-event listeners
-appointments.addEventListener('click', renderDetailedAppointment)
-
-
+//  event listeners
+// appointments.addEventListener('click', renderDetailedAppointment)
 
 
 
 //  invoked functions
 loginScreen()
-
-

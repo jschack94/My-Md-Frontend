@@ -7,6 +7,7 @@ const doctorContainer = document.querySelector(".doctor-container")
 const body = document.querySelector("body")
 let doctorsData
 let editDoctor = true
+
 //  defined functions
 const fetchDoctorFromLogin = (event) => {
   event.preventDefault()
@@ -25,6 +26,7 @@ const fetchDoctorFromLogin = (event) => {
           .catch(err => renderErrors(err))
       })
     }
+
 const loginScreen = () => {
   const loginDiv = document.createElement("div")
   body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://lh3.googleusercontent.com/proxy/PX0WUR0sjR0yStrVaTa_rkeNzrhePCccKGyIyUjX9TNRhxkAqbF4AQMD5t_fAWAPs99F8W2kQKmj3Th8pshCvF53uU1tOngQVOQldgvxt-rsn3Ukc_GAeR8ZB1uNZfs37Zs_hRUJ3vW35-4nte4WHQlI8jk0" alt="medical-symbol"><div class="login" id="login">
@@ -45,6 +47,7 @@ const createNewAppointment = (event) => {
     .then(doctor => populateAppointmentForm(clicked, doctor))
     .catch(err => renderErrors(err))
 }
+
 const postAppObj = (patientId, date, time, doctorId) => {
   return {
     method: "POST",
@@ -60,6 +63,7 @@ const postAppObj = (patientId, date, time, doctorId) => {
     })
   }
 }
+
 const postNewAppointment = (event) => {
   event.preventDefault()
   console.log("POST NEW APP", event.target)
@@ -75,9 +79,11 @@ const postNewAppointment = (event) => {
     .then(newApp => renderNewAppointment(newApp))
     .catch(err => renderErrors(err))
 }
+
 const renderNewAppointment = (newApp) => {
   console.log("NEWAPP", newApp)
 }
+
 const populateAppointmentForm = (clicked, doctor) => {
   console.log("POPULATE APPOINTMENT FORM", clicked)
     const appointments = document.querySelector('#appointment-list')
@@ -307,7 +313,12 @@ const renderOneAppointment = (appointment) => {
     .catch( err => console.log(err))
   })
 }
+
+
+
+
 //  event listeners
 // appointments.addEventListener('click', renderDetailedAppointment)
+  
 //  invoked functions
 loginScreen()

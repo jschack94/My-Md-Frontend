@@ -72,7 +72,7 @@ body {
 
 img {
     max-width:70%;
-    border-radius: 50%;
+    border-radius: 20%;
     height:auto;
     width: auto;
     max-width: 100px;
@@ -88,13 +88,14 @@ input {
 .login-form {
   text-align: center;
   align: center;
-  margin-top: 200px;
+  margin-top: 110px;
   font-size: 40px;
 }
 
 #myMDLogo {
   text-align: right;
   margin-top: -700px;
+  margin-left: -500px;
   font-size: 100px;
 }
 
@@ -152,8 +153,3 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
 }
-
-
-
-
-/* On small screens, set height to 'auto' for sidenav and grid */

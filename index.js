@@ -39,16 +39,17 @@ const loginScreen = () => {
   const loginForm = document.querySelector(".login-form")
   loginForm.addEventListener('submit', fetchDoctorFromLogin)
 }
-const createNewAppointment = (event) => {
-  const clicked = event.target
-  const doctorId = clicked.dataset.id
-  fetch(`${DOCTORS_ENDPOINT}/${doctorId}`)
-    .then(resp => resp.json())
-    .then(doctor => populateAppointmentForm(clicked, doctor))
-    .catch(err => renderErrors(err))
-}
 
-const postAppObj = (patientId, date, time, doctorId) => {
+// const createNewAppointment = (event) => {
+//   const clicked = event.target
+//   const doctorId = clicked.dataset.id
+//   fetch(`${DOCTORS_ENDPOINT}/${doctorId}`)
+//     .then(resp => resp.json())
+//     .then(doctor => populateAppointmentForm(clicked, doctor))
+//     .catch(err => renderErrors(err))
+// }
+
+const postAppObj = (patientId, date, doctorId) => {
   return {
     method: "POST",
     headers: {
@@ -58,8 +59,7 @@ const postAppObj = (patientId, date, time, doctorId) => {
     body: JSON.stringify({
       patient_id: patientId,
       doctor_id: doctorId,
-      date: date,
-      time: time
+      datetime: date
     })
   }
 }
@@ -70,11 +70,9 @@ const postNewAppointment = (event) => {
   const dropDown = document.getElementById("patient-dropdown");
   const patientId = parseInt(dropDown.options[dropDown.selectedIndex].dataset.id)
   const date = event.target.children[2].value
-  const time = event.target.children[3].value
   const doctorId = parseInt(event.target.dataset.id)
-  // make time string the right format to send to back end.
-  //  double check the format for the request object.
-  fetch(APPOINTMENTS_ENDPOINT, postAppObj(patientId, date, time, doctorId))
+
+  fetch(APPOINTMENTS_ENDPOINT, postAppObj(patientId, date, doctorId))
     .then(resp => resp.json())
     .then(newApp => renderNewAppointment(newApp))
     .catch(err => renderErrors(err))
@@ -82,6 +80,33 @@ const postNewAppointment = (event) => {
 
 const renderNewAppointment = (newApp) => {
   console.log("NEWAPP", newApp)
+  const appointments = document.querySelector('#appointment-list')
+  const doctorId = parseInt(appointments.children[0].dataset.id)
+
+  fetch(`${DOCTORS_ENDPOINT}/${doctorId}`)
+    .then(resp => resp.json())
+    .then(doctor => renderDocApps(appointments, doctor))
+}
+
+const renderDocApps = (appointments, doctor) => {
+  doctor.appointments.forEach(app => {
+      const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
+      appointments.innerHTML += appLI
+    })
+    const createApp = `<button type="button" name="button" data-id="${doctor.id}" class="create-appointment">Create New Appointment</button>`
+    appointments.innerHTML += createApp
+    const createAppButton = document.querySelector(".create-appointment")
+    createAppButton.addEventListener('click', createNewAppointment)
+    appointments.addEventListener('click', renderDetailedAppointment)
+}
+
+const createNewAppointment = (event) => {
+  const clicked = event.target
+  const doctorId = clicked.dataset.id
+  fetch(`${DOCTORS_ENDPOINT}/${doctorId}`)
+    .then(resp => resp.json())
+    .then(doctor => populateAppointmentForm(clicked, doctor))
+    .catch(err => renderErrors(err))
 }
 
 const populateAppointmentForm = (clicked, doctor) => {
@@ -107,13 +132,14 @@ const populateAppointmentForm = (clicked, doctor) => {
     const submitButton = document.createElement('button')
     submitButton.type = "submit"
     submitButton.innerText = "Submit"
-    date.type = "date"
-    time.type = "time"
-    createAppForm.append(date)
+    // date.type = "date"
+    time.type = "datetime-local"
+    // createAppForm.append(date)
     createAppForm.append(time)
     createAppForm.append(submitButton)
     createAppForm.addEventListener('submit', postNewAppointment)
 }
+
 const renderDoctorHomeScreen = (doctor) => {
   console.log("RENDERHOMESCREEN", doctor)
   body.innerHTML =
@@ -252,9 +278,11 @@ doctor.appointments.forEach(app => {
   createAppButton.addEventListener('click', createNewAppointment)
   appointments.addEventListener('click', renderDetailedAppointment)
 }
+
 const renderErrors = (err) => {
   appointmentList.innerHTML = `<h1>The following errors prevented the data from fetching. ${err}. Make sure rails server is running.`
 }
+
 const renderDetailedAppointment = (event) => {
   if (event.target.tagName === "LI") {
     console.log("IM AN LI", event.target)
@@ -267,8 +295,7 @@ const renderDetailedAppointment = (event) => {
   }
 }
 
-
-  const renderUpdatedAppt = (eventTarget, apptInfo) => {
+const renderUpdatedAppt = (eventTarget, apptInfo) => {
     // debugger
     const appointmentInfoPanel = document.querySelector("#appointment-info")
     const apptDiagnosis = apptInfo.diagnosis

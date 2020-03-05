@@ -423,7 +423,7 @@ const renderOneAppointment = (appointment) => {
     <form class="appointment-details">
       <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
       <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
-      <input type="submit" name="Submit" value="Submit">
+      <input class="update-appointment-info" type="submit" name="Submit" value="Submit">
     </form><p>
     </p>
     <button <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a> </button>
@@ -463,7 +463,7 @@ const renderOneAppointment = (appointment) => {
       // update patient details
       patientUpdateBtn.addEventListener('submit', renderPatientUpdate)
 
-      }
+      } 
     })
 
   const formContainer = document.querySelector(".appointment-details")

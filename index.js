@@ -150,23 +150,17 @@ const renderDoctorHomeScreen = (doctor) => {
   <button type="button" class="close" data-dismiss="alert">&times;</button>
   <strong>Success!</strong> You have successfully logged in.
   </div>
-
+  <button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
+  
   <div id="main">
-  <h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1>
-  <div class="bg" id="time"><h1><h1>Welcome Dr. ${doctor.last_name} <p> <h3> Todays date is: ${d} </h3> </div>
-<button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
-<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240);>
+  <div class="bg" id="time"><h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1><h1>Welcome Dr. ${doctor.last_name}  <p> <h3> Todays date is: ${d} </h3>  </div>
+<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240); <img src="${doctor.image}" alt="doctor photo">
 
-<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-<h2>Dr. ${doctor.full_name} </h2> <p> <img src="${doctor.image}" alt="doctor photo" > </p>
+<h3> Dr. ${doctor.full_name}</h3><img src="${doctor.image}" alt="doctor photo">
 <h3>Specialty: </h3> <p> ${doctor.specialty}</p>
 <h3>Bio: </h3> <p> ${doctor.bio}</p>
 <h3>Residency </h3> <p> ${doctor.residency}</p>
 <h3>Email: </h3> <p> ${doctor.email}</p>
-</div>
-
-</div>
-<div class="containers"> <p>
 <div> <button class="Edit-Btn">Edit Profile</button> </div>
     <form class="edit-doctor-form" data-id="${doctor.id}">
     <p>
@@ -201,7 +195,15 @@ const renderDoctorHomeScreen = (doctor) => {
         class="submit"
       />
     </form>
+    <p>
+    <br><button class="Close-Btn">Close Profile</button> </br>
+    </p>
   </div>  
+</div>
+
+</div>
+<div class="containers"> <p>
+
     <div class="container">
     <h1 id="hold" class="display-1" style="font-size: 40px;"></h1>
   <div class="row" style="font-size:20px;">
@@ -211,6 +213,12 @@ const renderDoctorHomeScreen = (doctor) => {
   </div>
 
 </div>`
+
+debugger
+ 
+const closeButton = document.querySelector('.Close-Btn')
+
+closeButton.addEventListener('click', closeNav)
 
 const doctorDiv = document.createElement('div')
 doctorDiv.dataset.id = doctor.id

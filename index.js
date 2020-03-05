@@ -208,33 +208,19 @@ const renderDoctorHomeScreen = (doctor) => {
   signedInDoctor = doctor
   var d = new Date();
   body.innerHTML =
-<<<<<<< HEAD
-  
-  `<div class="container" id="${doctor.id}"> 
-=======
 
   `<div class="container" id="${doctor.id}">
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
   <div class="alert alert-success alert-dismissible fade show">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
   <strong>Success!</strong> You have successfully logged in.
   </div>
 
-<<<<<<< HEAD
-   
-
-  <button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button> 
-  <div id="main"><div class="bg" id="time"><h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1><h1>Welcome Dr. ${doctor.last_name}  <p> <h3> Todays date is: ${d} </h3> <p> </p> </div>
-<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240); <img src="${doctor.image}" alt="doctor photo">
-
-=======
 
 
   <button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
   <div id="main"><div class="bg" id="time"><h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1><h1>Welcome Dr. ${doctor.last_name}  <p> <h3> Todays date is: ${d} </h3> <p> </p> </div>
 <div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240); <img src="${doctor.image}" alt="doctor photo">
 
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
 <h3> Dr. ${doctor.full_name}</h3><img src="${doctor.image}" alt="doctor photo">
 <h3>Specialty: </h3> <p> ${doctor.specialty}</p>
 <h3>Bio: </h3> <p> ${doctor.bio}</p>
@@ -277,11 +263,7 @@ const renderDoctorHomeScreen = (doctor) => {
     <p>
     <br><button class="Close-Btn">Close Profile</button> </br>
     </p>
-<<<<<<< HEAD
-  </div>  
-=======
   </div>
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
 </div>
 
 
@@ -294,38 +276,22 @@ const renderDoctorHomeScreen = (doctor) => {
     <div class="col-sm-4" id="appointment-list"><h1>My Appointments</h1></div>
     <div class="col-sm-4" id="patient-info"><h1>Patient Info</h1></div>
     <div class="col-sm-4" id="appointment-info"><h1>Appointment Info</h1></div>
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
   </div>
   <p>
   </p>
   <p>
   </p>
 
-<<<<<<< HEAD
-  <div class="footer"> 
-            <h1> © 2020 Copyright: Flatiron School </h1>
-            
-=======
   <div class="footer">
             <h1> © 2020 Copyright: Flatiron School </h1>
 
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
             <img style="bottom: center; margin-: -100px;" class="flatiron-image" src="https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/999/s300/flatironschool.png" alt="medical-symbol"><div class="login" id="login">
           </div>
 
 </div>`
 
-<<<<<<< HEAD
-debugger
- 
-=======
 
 
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
 const closeButton = document.querySelector('.Close-Btn')
 
 closeButton.addEventListener('click', closeNav)
@@ -349,57 +315,8 @@ editBtn.addEventListener('click', () => { // hide & seek with the form
   }
 })
 
-<<<<<<< HEAD
-doctorContainer.addEventListener("submit", (e) => {
-
-  e.preventDefault();
-
-  if (e.target.className === "edit-doctor-form") {
-
-
-
-      const formData = {
-        bio: e.target[0].value,
-        email: e.target[1].value,
-        image: e.target[2].value
-      };
-
-      e.target.reset()
-
-      const reqObj = {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify(formData)
-      };
-
-      fetch( DOCTORS_ENDPOINT + "/" + e.target.dataset.id, reqObj)
-        .then((resp) => resp.json())
-        .then((doctor) => {
-          alert(`Success`);
-
-        })
-      }
-    })
-
-
-
-const appointments = document.querySelector('#appointment-list')
-doctor.appointments.forEach(app => {
-    const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
-    appointments.innerHTML += appLI
-  })
-  const createApp = `<button type="button" name="button" data-id="${doctor.id}" class="create-appointment" >+</button>`
-  appointments.innerHTML += createApp
-  const createAppButton = document.querySelector(".create-appointment")
-  createAppButton.addEventListener('click', createNewAppointment)
-  appointments.addEventListener('click', renderDetailedAppointment)
-=======
   doctorContainer.addEventListener("submit", editDoctorForm)
   renderAppointments(signedInDoctor)
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
 }
 
 const renderErrors = (err) => {
@@ -433,15 +350,13 @@ const renderUpdatedPatient = (patientInfo) => {
   console.log("RENDERUPDATEDPATIENT")
   const patientInfoPanel = document.querySelector("#patient-info")
 
-  const updatedPatientForm = `<h1>Patient Details</h1><h1>${patientInfo.full_name}</h1><img src="${patientInfo.image}" alt="patient photo">
+  patientInfoPanel.innerHTML = `<h1>Patient Details</h1><h1>${patientInfo.full_name}</h1><img src="${patientInfo.image}" alt="patient photo">
   <h2>Pre-existing Medical Conditions: ${patientInfo.health_conditions}</h2>
   <h3>Age: ${patientInfo.age} years</h3>
   <h3>Height: ${patientInfo.height_string}</h3>
   <h3>Weight: ${patientInfo.weight} pounds</h3>
   <h3>Email: ${patientInfo.email}</h3>
   <button type="button" name="button" data-id="${patientInfo.id}" class="update-patient-info">Update Patient Info</button>`
-
-  patientInfoPanel.innerHTML = updatedPatientForm
 }
 
 const renderPatientUpdate = (e) => {
@@ -509,18 +424,10 @@ const renderOneAppointment = (appointment) => {
       <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
       <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
       <input type="submit" name="Submit" value="Submit">
-<<<<<<< HEAD
-    </form>
-    <p>
-    </p>
-    <button <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a> </button>
-    <p><a href="https://www.webmd.com/">Consult WebMD</a> `
-=======
     </form><p>
     </p>
     <button <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a> </button>
     <p><a href="https://www.webmd.com/">Consult WebMD</a>`
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
   appointmentInfoPanel.innerHTML = apptDetail
   // render one patient
   const patient = appointment.patient
@@ -535,9 +442,10 @@ const renderOneAppointment = (appointment) => {
     patientInfoPanel.innerHTML = patientDetail
 
 
-    const updatePatient = document.querySelector(".update-patient-info")
-    updatePatient.addEventListener('click', function(e){
-      if(e.target.className === 'update-patient-info')
+    // const updatePatient = document.querySelector(".update-patient-info")
+    document.body.addEventListener('click', function(e){
+      
+      if(e.target.className === 'update-patient-info'){
       console.log(e.target.value, "button clicked")
       const patientID = e.target.dataset.id
       const newPatientDetails = `<form class="update-patient-btn" data-id="${patientID}">
@@ -556,10 +464,13 @@ const renderOneAppointment = (appointment) => {
       // add eventlistenr on form
       // update patient details
       patientUpdateBtn.addEventListener('submit', renderPatientUpdate)
+
+      }
     })
 
   const formContainer = document.querySelector(".appointment-details")
   formContainer.addEventListener('submit', updateDiagnosisDirections)
+    
 }
 
 //  invoked functions

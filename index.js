@@ -1,3 +1,4 @@
+
 DOCTORS_ENDPOINT = "http://localhost:3000/doctors"
 PATIENTS_ENDPOINT = "http://localhost:3000/patients"
 APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
@@ -122,7 +123,7 @@ const renderDetailedAppointment = (event) => {
     fetch(`${APPOINTMENTS_ENDPOINT}/${appointmentId}`)
       .then(resp => resp.json())
       .then(appointment => renderOneAppointment(appointment))
-      .catch(err => console.log(err))
+      .catch(err => renderErrors(err))
   }
 }
 
@@ -207,86 +208,113 @@ const renderDoctorHomeScreen = (doctor) => {
   signedInDoctor = doctor
   var d = new Date();
   body.innerHTML =
+
   `<div class="container" id="${doctor.id}">
   <div class="alert alert-success alert-dismissible fade show">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
   <strong>Success!</strong> You have successfully logged in.
   </div>
 
-  <div id="main">
-  <h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1>
-  <div class="bg" id="time"><h1><h1>Welcome Dr. ${doctor.last_name} <p> <h3> Todays date is: ${d} </h3> </div>
+
+
   <button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
-  <div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240);>
+  <div id="main"><div class="bg" id="time"><h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1><h1>Welcome Dr. ${doctor.last_name}  <p> <h3> Todays date is: ${d} </h3> <p> </p> </div>
+<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240); <img src="${doctor.image}" alt="doctor photo">
 
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-  <h2>Dr. ${doctor.full_name} </h2> <p> <img src="${doctor.image}" alt="doctor photo" > </p>
-  <h3>Specialty: </h3> <p> ${doctor.specialty}</p>
-  <h3>Bio: </h3> <p> ${doctor.bio}</p>
-  <h3>Residency </h3> <p> ${doctor.residency}</p>
-  <h3>Email: </h3> <p> ${doctor.email}</p>
+<h3> Dr. ${doctor.full_name}</h3><img src="${doctor.image}" alt="doctor photo">
+<h3>Specialty: </h3> <p> ${doctor.specialty}</p>
+<h3>Bio: </h3> <p> ${doctor.bio}</p>
+<h3>Residency </h3> <p> ${doctor.residency}</p>
+<h3>Email: </h3> <p> ${doctor.email}</p>
+<div> <button class="Edit-Btn">Edit Profile</button> </div>
+    <form class="edit-doctor-form" data-id="${doctor.id}">
+    <p>
+      <h3>Edit Your Personal Information:</h3>
+      <input
+        type="text"
+        name="bio"
+        value=""
+        placeholder="Edit Bio"
+        class="input-text"
+      />
+
+      <input
+        type="text"
+        name="email"
+        value=""
+        placeholder="Edit Email"
+        class="input-text"
+      />
+
+      <input
+        type="text"
+        name="image"
+        value=""
+        placeholder="Edit Image"
+        class="input-text"
+      />
+      <input
+        type="submit"
+        name="submit"
+        value="Submit Changes"
+        class="submit"
+      />
+    </form>
+    <p>
+    <br><button class="Close-Btn">Close Profile</button> </br>
+    </p>
   </div>
+</div>
+
+
+</div>
+<div class="containers"> <p>
+
+    <div class="container">
+    <h1 id="hold" class="display-1" style="font-size: 40px;"></h1>
+  <div class="row" style="font-size:20px;">
+    <div class="col-sm-4" id="appointment-list"><h1>My Appointments</h1></div>
+    <div class="col-sm-4" id="patient-info"><h1>Patient Info</h1></div>
+    <div class="col-sm-4" id="appointment-info"><h1>Appointment Info</h1></div>
 
   </div>
-  <div class="containers"> <p>
-  <div> <button class="Edit-Btn">Edit Profile</button> </div>
-      <form class="edit-doctor-form" data-id="${doctor.id}">
-      <p>
-        <h3>Edit Your Personal Information:</h3>
-        <input
-          type="text"
-          name="bio"
-          value=""
-          placeholder="Edit Bio"
-          class="input-text"
-        />
+  <p>
+  </p>
+  <p>
+  </p>
 
-        <input
-          type="text"
-          name="email"
-          value=""
-          placeholder="Edit Email"
-          class="input-text"
-        />
+  <div class="footer">
+            <h1> © 2020 Copyright: Flatiron School </h1>
 
-        <input
-          type="text"
-          name="image"
-          value=""
-          placeholder="Edit Image"
-          class="input-text"
-        />
-        <input
-          type="submit"
-          name="submit"
-          value="Submit Changes"
-          class="submit"
-        />
-      </form>
-    </div>
-      <div class="container">
-      <h1 id="hold" class="display-1" style="font-size: 40px;"></h1>
-    <div class="row" style="font-size:20px;">
-      <div class="col-sm-4" id="appointment-list"><h1>My Appointments</h1></div>
-      <div class="col-sm-4" id="patient-info"><h1>Patient Info</h1></div>
-      <div class="col-sm-4" id="appointment-info"><h1>Appointment Info</h1></div>
-    </div>
-  </div>`
+            <img style="bottom: center; margin-: -100px;" class="flatiron-image" src="https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/999/s300/flatironschool.png" alt="medical-symbol"><div class="login" id="login">
+          </div>
 
-  const doctorDiv = document.createElement('div')
-  doctorDiv.dataset.id = doctor.id
+</div>`
 
-  const doctorContainer = document.querySelector('.edit-doctor-form');
-  const editBtn = document.querySelector('.Edit-Btn')
 
-  editBtn.addEventListener('click', () => { // hide & seek with the form
-    editDoctor = !editDoctor
-    if (editDoctor) {
-      doctorContainer.style.display = 'block'
-    } else {
-      doctorContainer.style.display = 'none'
-    }
-  })
+
+const closeButton = document.querySelector('.Close-Btn')
+
+closeButton.addEventListener('click', closeNav)
+
+const doctorDiv = document.createElement('div')
+doctorDiv.dataset.id = doctor.id
+
+
+//const welcomePanel = body.children[0].children[1]
+
+
+const doctorContainer = document.querySelector('.edit-doctor-form');
+const editBtn = document.querySelector('.Edit-Btn')
+
+editBtn.addEventListener('click', () => { // hide & seek with the form
+  editDoctor = !editDoctor
+  if (editDoctor) {
+    doctorContainer.style.display = 'block'
+  } else {
+    doctorContainer.style.display = 'none'
+  }
+})
 
   doctorContainer.addEventListener("submit", editDoctorForm)
   renderAppointments(signedInDoctor)
@@ -385,7 +413,7 @@ const updateDiagnosisDirections = (e) => {
   fetch(`${APPOINTMENTS_ENDPOINT}/${patientId}`, reqObj)
   .then( resp => resp.json())
   .then( apptInfo => renderUpdatedAppt(eventTarget, apptInfo))
-  .catch( err => console.log(err))
+  .catch( err => renderErrors(err))
 }
 
 const renderOneAppointment = (appointment) => {
@@ -399,17 +427,20 @@ const renderOneAppointment = (appointment) => {
       <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
       <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
       <input type="submit" name="Submit" value="Submit">
-    </form>`
+    </form><p>
+    </p>
+    <button <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a> </button>
+    <p><a href="https://www.webmd.com/">Consult WebMD</a>`
   appointmentInfoPanel.innerHTML = apptDetail
   // render one patient
   const patient = appointment.patient
   const patientInfoPanel = document.querySelector("#patient-info")
-  const patientDetail = `<h1>Patient Details</h1><h1>${patient.full_name}</h1><img src="${patient.image}" alt="patient photo">
-    <h2>Pre-existing Medical Conditions: ${patient.health_conditions}</h2>
-    <h3>Age: ${patient.age} years</h3>
-    <h3>Height: ${patient.height_string}</h3>
-    <h3>Weight: ${patient.weight} pounds</h3>
-    <h3>Email: ${patient.email}</h3>
+  const patientDetail = `<h1>Patient Details</h1><h1><strong>${patient.full_name}</strong></h1></strong><img src="${patient.image}" alt="patient photo">
+    <strong><h2>Pre-existing Medical Conditions: </strong> ${patient.health_conditions}</h2>
+    <strong><h3>Age: </strong> ${patient.age} years</h3>
+    <strong><h3>Height: </strong> ${patient.height_string}</h3>
+    <strong><h3>Weight:</strong> ${patient.weight} pounds</h3>
+    <strong><h3>Email:</strong> ${patient.email}</h3>
     <button type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
     patientInfoPanel.innerHTML = patientDetail
 

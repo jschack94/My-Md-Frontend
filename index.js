@@ -140,6 +140,7 @@ const populateAppointmentForm = (clicked, doctor) => {
     createAppForm.dataset.id = doctor.id
     createAppForm.append(label)
     createAppForm.append(select)
+    console.log('hfghghg', doctor.patients)
     doctor.patients.forEach(patient => {
       const patientOption = `<option data-id=${patient.id}" selected="" value="">${patient.full_name}</option>`
       select.innerHTML += patientOption
@@ -159,16 +160,26 @@ const populateAppointmentForm = (clicked, doctor) => {
 
 const renderAppointments = (signedInDoctor) => {
   console.log("RENDERAPPOINTMENTS")
-  const appointments = document.querySelector('#appointment-list')
-    signedInDoctor.appointments.forEach(app => {
-      const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
-      appointments.innerHTML += appLI
+  fetch(`${DOCTORS_ENDPOINT}/${signedInDoctor.id}`)
+    .then(resp => resp.json())
+    .then(doctor => {
+      const appointments = document.querySelector('#appointment-list')
+      appointments.innerHTML = ''
+      const h1 = document.createElement('h1')
+      h1.innerText = "My Appointments"
+      appointments.append(h1)
+      appointments.dataset.id = doctor.id
+        doctor.appointments.forEach(app => {
+          const appLI = `<li data-id="${app.id}">${app.stringified_date}<button type="button" name="button" data-id="${app.id}" class="delete-appointment" >Delete</button></li>`
+          appointments.innerHTML += appLI
+        })
+        const createApp = `<button type="button" name="button" data-id="${signedInDoctor.id}" class="create-appointment" >Create</button>`
+        appointments.innerHTML += createApp
+        const createAppButton = document.querySelector(".create-appointment")
+        createAppButton.addEventListener('click', createNewAppointment)
+        appointments.addEventListener('click', renderDetailedAppointment)
     })
-    const createApp = `<button type="button" name="button" data-id="${signedInDoctor.id}" class="create-appointment" >+</button>`
-    appointments.innerHTML += createApp
-    const createAppButton = document.querySelector(".create-appointment")
-    createAppButton.addEventListener('click', createNewAppointment)
-    appointments.addEventListener('click', renderDetailedAppointment)
+    .catch(err => renderErrors(err))
 }
 
 const editDoctorForm = (e) => {
@@ -324,18 +335,6 @@ const renderErrors = (err) => {
   body.innerHTML = `<h1>The following errors prevented the data from fetching. ${err}. Make sure rails server is running.`
 }
 
-// const renderDetailedAppointment = (event) => {
-//   if (event.target.tagName === "LI") {
-//     console.log("IM AN LI", event.target)
-//     clicked = event.target
-//     const appointmentId = event.target.dataset.id
-//     fetch(`${APPOINTMENTS_ENDPOINT}/${appointmentId}`)
-//       .then(resp => resp.json())
-//       .then(appointment => renderOneAppointment(appointment))
-//       .catch(err => console.log(err))
-//   }
-// }
-
 const renderUpdatedAppt = (eventTarget, apptInfo) => {
     // debugger
     console.log("RENDERUPDATEDAPPT")
@@ -469,9 +468,50 @@ const renderOneAppointment = (appointment) => {
   formContainer.addEventListener('submit', updateDiagnosisDirections)
 }
 
-const logout = () => {
+// const logout = () => {
+//
+// }
 
+const apptDeleteObj = () => {
+  return {
+    method: "DELETE",
+    headers: {
+      "Content-Type":"application/json",
+      "Accept":"application/json"
+    }
+  }
 }
+
+const deleteAppointment = (eventTarget, appointmentId) => {
+  console.log("DELETEAPPOINTMENT")
+  fetch(`${APPOINTMENTS_ENDPOINT}/${appointmentId}`, apptDeleteObj())
+    .then(resp => resp.json())
+    .then(deletion => {
+      console.log("server response", deletion)
+      renderAppointments(signedInDoctor)
+    })
+    .catch(err => renderErrors(err))
+}
+
+const eventListeners = (event) => {
+  console.log("EVENTLISTENERS")
+  const eventTarget = event.target
+  if (event.target.className === 'delete-appointment') {
+    // const eventTarget = event.target
+    const appointmentId = parseInt(eventTarget.dataset.id)
+    deleteAppointment(eventTarget, appointmentId)
+  }
+  // else if (event.target.className === "create-appointment") {
+  //   debugger
+  //   createNewAppointment(eventTarget)
+  //   // appointments.addEventListener('click', renderDetailedAppointment)
+  // } else if (event.target.id === "appointment-list"){
+  //   renderDetailedAppointment(eventTarget)
+  // }
+}
+
+// event listeners
+body.addEventListener('click', eventListeners)
 
 //  invoked functions
 

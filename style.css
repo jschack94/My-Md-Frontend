@@ -1,14 +1,6 @@
 body {
   font-family: "Lato", sans-serif;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color: #f5f5f5;
-}
 .sidebar {
   height: 100%;
   width: 0;
@@ -70,6 +62,19 @@ img {
 input {
   font-family: times;
 }
+<<<<<<< HEAD
+
+#rcorners1 {
+  text-align: center;
+  margin-right: -600px;
+  border-radius: 25px;
+  background: rgb(33, 98, 173);
+  padding: 20px; 
+  width: 200px;
+  height: 150px;  
+}
+=======
+>>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
 .login-form {
   text-align: center;
   align: center;
@@ -89,6 +94,15 @@ img.medical-image {
   width: auto;
   max-width: 250px;
   max-height: 150px;
+}
+
+img.flatiron-image {
+  text-align: right;
+  margin-top: 0px;
+  height: auto;
+  width: auto;
+  max-width: 100px;
+  max-height: 100px;
 }
 .login-email {
   font-size: 30px;
@@ -122,3 +136,37 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
 }
+<<<<<<< HEAD
+  /* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+.footer {
+  position: botton;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  text-align: center;
+}
+
+
+
+
+
+/* The popup form - hidden by default */
+
+
+=======
+>>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384

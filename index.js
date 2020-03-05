@@ -350,15 +350,13 @@ const renderUpdatedPatient = (patientInfo) => {
   console.log("RENDERUPDATEDPATIENT")
   const patientInfoPanel = document.querySelector("#patient-info")
 
-  const updatedPatientForm = `<h1>Patient Details</h1><h1>${patientInfo.full_name}</h1><img src="${patientInfo.image}" alt="patient photo">
+  patientInfoPanel.innerHTML = `<h1>Patient Details</h1><h1>${patientInfo.full_name}</h1><img src="${patientInfo.image}" alt="patient photo">
   <h2>Pre-existing Medical Conditions: ${patientInfo.health_conditions}</h2>
   <h3>Age: ${patientInfo.age} years</h3>
   <h3>Height: ${patientInfo.height_string}</h3>
   <h3>Weight: ${patientInfo.weight} pounds</h3>
   <h3>Email: ${patientInfo.email}</h3>
   <button type="button" name="button" data-id="${patientInfo.id}" class="update-patient-info">Update Patient Info</button>`
-
-  patientInfoPanel.innerHTML = updatedPatientForm
 }
 
 const renderPatientUpdate = (e) => {
@@ -444,9 +442,10 @@ const renderOneAppointment = (appointment) => {
     patientInfoPanel.innerHTML = patientDetail
 
 
-    const updatePatient = document.querySelector(".update-patient-info")
-    updatePatient.addEventListener('click', function(e){
-      if(e.target.className === 'update-patient-info')
+    // const updatePatient = document.querySelector(".update-patient-info")
+    document.body.addEventListener('click', function(e){
+      
+      if(e.target.className === 'update-patient-info'){
       console.log(e.target.value, "button clicked")
       const patientID = e.target.dataset.id
       const newPatientDetails = `<form class="update-patient-btn" data-id="${patientID}">
@@ -463,10 +462,13 @@ const renderOneAppointment = (appointment) => {
       // add eventlistenr on form
       // update patient details
       patientUpdateBtn.addEventListener('submit', renderPatientUpdate)
+
+      }
     })
 
   const formContainer = document.querySelector(".appointment-details")
   formContainer.addEventListener('submit', updateDiagnosisDirections)
+    
 }
 
 const logout = () => {

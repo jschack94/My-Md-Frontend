@@ -17,35 +17,19 @@
     </head>
     <body>
         <h1 class="doctor-welcome"></h1>
-        <div class="appointment-container" id="appointment-container" >
-          <ul class="appointment-list"></ul>
-        </div>
-        <div class="appointment-detail-panel">
+    </body>
+    <script>
+            function openNav() {
+                document.getElementById("mySidebar").style.width = "250px";
+                    document.getElementById("main").style.marginLeft = "250px";
+                    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+                            }
 
-        </div>
-        <div class="patient-detail-panel">
-        </div>
-          </body>
-          
-        
-        <script> 
-        
-function openNav() {
-    document.getElementById("mySidebar").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
-        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-                }
-                
-    function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-    document.body.style.backgroundColor = "white";
-                }
-    </script>     
-    
-
-      
-                    
-
+                function closeNav() {
+                        document.getElementById("mySidebar").style.width = "0";
+                document.getElementById("main").style.marginLeft= "0";
+                document.body.style.backgroundColor = "white";
+                            }
+    </script>
     <script defer src="index.js" ></script>
 </html>

@@ -1,4 +1,3 @@
-
 DOCTORS_ENDPOINT = "http://localhost:3000/doctors"
 PATIENTS_ENDPOINT = "http://localhost:3000/patients"
 APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
@@ -276,6 +275,7 @@ const renderDoctorHomeScreen = (doctor) => {
     <div class="col-sm-4" id="appointment-list"><h1>My Appointments</h1></div>
     <div class="col-sm-4" id="patient-info"><h1>Patient Info</h1></div>
     <div class="col-sm-4" id="appointment-info"><h1>Appointment Info</h1></div>
+
   </div>
   <p>
   </p>
@@ -459,8 +459,6 @@ const renderOneAppointment = (appointment) => {
       patientInfoPanel.innerHTML = newPatientDetails
 
       const patientUpdateBtn = document.querySelector('.update-patient-btn')
-
-      
       // add eventlistenr on form
       // update patient details
       patientUpdateBtn.addEventListener('submit', renderPatientUpdate)
@@ -471,6 +469,10 @@ const renderOneAppointment = (appointment) => {
   const formContainer = document.querySelector(".appointment-details")
   formContainer.addEventListener('submit', updateDiagnosisDirections)
     
+}
+
+const logout = () => {
+
 }
 
 //  invoked functions

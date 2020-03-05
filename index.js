@@ -216,7 +216,8 @@ const editDoctorForm = (e) => {
 const renderDoctorHomeScreen = (doctor) => {
   console.log("RENDERDOCTORHOMESCREEN")
   signedInDoctor = doctor
-  var d = new Date();
+  var date = new Date();
+  let d = (date.getMonth()+1)+'-'+date.getDate()+'-'+date.getFullYear()
   body.innerHTML =
 
   `<div class="container" id="${doctor.id}">
@@ -228,7 +229,7 @@ const renderDoctorHomeScreen = (doctor) => {
 
 
   <button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
-  <div id="main"><div class="bg" id="time"><h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1><h1>Welcome Dr. ${doctor.last_name}  <p> <h3> Todays date is: ${d} </h3> <p> </p> </div>
+  <div id="main"><div class="bg" id="time"><h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1><h1>Welcome Dr. ${doctor.last_name}  <p> <h3> Date: ${d} </h3> <p> </p> </div>
 <div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240); <img src="${doctor.image}" alt="doctor photo">
 
 <h3> Dr. ${doctor.full_name}</h3><img src="${doctor.image}" alt="doctor photo">
@@ -443,7 +444,7 @@ const renderOneAppointment = (appointment) => {
 
     // const updatePatient = document.querySelector(".update-patient-info")
     document.body.addEventListener('click', function(e){
-      
+
       if(e.target.className === 'update-patient-info'){
       console.log(e.target.value, "button clicked")
       const patientID = e.target.dataset.id
@@ -467,7 +468,7 @@ const renderOneAppointment = (appointment) => {
 
   const formContainer = document.querySelector(".appointment-details")
   formContainer.addEventListener('submit', updateDiagnosisDirections)
-    
+
 }
 
 // const logout = () => {

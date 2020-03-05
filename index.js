@@ -1,34 +1,38 @@
 DOCTORS_ENDPOINT = "http://localhost:3000/doctors"
 PATIENTS_ENDPOINT = "http://localhost:3000/patients"
 APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
-const appointmentList = document.querySelector(".appointment-list")
-const appDetailPanel = document.querySelector(".appointment-detail-panel")
+const appointmentList = document.querySelector("#appointment-list")
 const doctorContainer = document.querySelector(".doctor-container")
 const body = document.querySelector("body")
 const footer = document.querySelector(".footer")
-let doctorsData
 let editDoctor = true
+let signedInDoctor
 
 //  defined functions
+
+const fetchOneDoctor = (doctorEmail, doctors) => {
+  console.log("FETCHONEDOCTOR")
+  const matchingDoc = doctors.filter(doctor => doctor.email === doctorEmail)
+  const docId = parseInt(matchingDoc[0].id)
+
+  fetch(`${DOCTORS_ENDPOINT}/${docId}`)
+    .then(resp => resp.json())
+    .then(doctor => renderDoctorHomeScreen(doctor))
+    .catch(err => renderErrors(err))
+}
+
 const fetchDoctorFromLogin = (event) => {
+  console.log("FETCHDOCTORFROMLOGIN")
   event.preventDefault()
   const clicked = event.target
   const doctorEmail = clicked.children[2].value
     fetch(`${DOCTORS_ENDPOINT}`)
       .then(resp => resp.json())
-      .then(doctors => {
-        doctorsData = doctors
-        doctorEmail
-        const matchingDoc = doctorsData.filter(doctor => doctor.email === doctorEmail)
-        const docId = parseInt(matchingDoc[0].id)
-        fetch(`${DOCTORS_ENDPOINT}/${docId}`)
-          .then(resp => resp.json())
-          .then(doctor => renderDoctorHomeScreen(doctor))
-          .catch(err => renderErrors(err))
-      })
+      .then(doctors => fetchOneDoctor(doctorEmail, doctors))
     }
 
 const loginScreen = () => {
+  console.log("LOGINSCREEN")
   const loginDiv = document.createElement("div")
   body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://lh3.googleusercontent.com/proxy/BxPHZgDtikExm_mDhA3yCuDIH3htNAm633lxZ35G4DqNiNhyM-9Wve7A4DmojwBRqLwSUXJ57HQM9Y22OHfEPhfSOSy-pn0" alt="medical-symbol"><div class="login" id="login">
     <form class="login-form" action="index.html" method="post">
@@ -41,16 +45,8 @@ const loginScreen = () => {
   loginForm.addEventListener('submit', fetchDoctorFromLogin)
 }
 
-// const createNewAppointment = (event) => {
-//   const clicked = event.target
-//   const doctorId = clicked.dataset.id
-//   fetch(`${DOCTORS_ENDPOINT}/${doctorId}`)
-//     .then(resp => resp.json())
-//     .then(doctor => populateAppointmentForm(clicked, doctor))
-//     .catch(err => renderErrors(err))
-// }
-
 const postAppObj = (patientId, date, doctorId) => {
+  console.log("POSTAPPOBJ")
   return {
     method: "POST",
     headers: {
@@ -67,7 +63,7 @@ const postAppObj = (patientId, date, doctorId) => {
 
 const postNewAppointment = (event) => {
   event.preventDefault()
-  console.log("POST NEW APP", event.target)
+  console.log("POST NEW APPOINTMENT", event.target)
   const dropDown = document.getElementById("patient-dropdown");
   const patientId = parseInt(dropDown.options[dropDown.selectedIndex].dataset.id)
   const date = event.target.children[2].value
@@ -80,16 +76,22 @@ const postNewAppointment = (event) => {
 }
 
 const renderNewAppointment = (newApp) => {
-  console.log("NEWAPP", newApp)
+  console.log("RENDERNEWAPPOINTMENT", newApp)
   const appointments = document.querySelector('#appointment-list')
   const doctorId = parseInt(appointments.children[0].dataset.id)
-
-  fetch(`${DOCTORS_ENDPOINT}/${doctorId}`)
-    .then(resp => resp.json())
-    .then(doctor => renderDocApps(appointments, doctor))
+  // doctor =
+  appointments.innerHTML = ""
+  const h1 = document.createElement('h1')
+  h1.innerText = "My Appointments"
+  appointments.append(h1)
+  renderAppointments(signedInDoctor)
+  // fetch(`${DOCTORS_ENDPOINT}/${doctorId}`)
+  //   .then(resp => resp.json())
+  //   .then(doctor => renderDocApps(appointments, doctor))
 }
 
 const renderDocApps = (appointments, doctor) => {
+  console.log("RENDERDOCAPPS")
   doctor.appointments.forEach(app => {
       const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
       appointments.innerHTML += appLI
@@ -102,12 +104,26 @@ const renderDocApps = (appointments, doctor) => {
 }
 
 const createNewAppointment = (event) => {
+  console.log("CREATENEWAPPOINTMENT")
   const clicked = event.target
   const doctorId = clicked.dataset.id
   fetch(`${DOCTORS_ENDPOINT}/${doctorId}`)
     .then(resp => resp.json())
     .then(doctor => populateAppointmentForm(clicked, doctor))
     .catch(err => renderErrors(err))
+}
+
+const renderDetailedAppointment = (event) => {
+  console.log("RENDERDETAILEDAPPOINTMENT")
+  if (event.target.tagName === "LI") {
+    console.log("IM AN LI", event.target)
+    clicked = event.target
+    const appointmentId = event.target.dataset.id
+    fetch(`${APPOINTMENTS_ENDPOINT}/${appointmentId}`)
+      .then(resp => resp.json())
+      .then(appointment => renderOneAppointment(appointment))
+      .catch(err => console.log(err))
+  }
 }
 
 const populateAppointmentForm = (clicked, doctor) => {
@@ -141,104 +157,25 @@ const populateAppointmentForm = (clicked, doctor) => {
     createAppForm.addEventListener('submit', postNewAppointment)
 }
 
-const renderDoctorHomeScreen = (doctor) => {
-  var d = new Date();
-  console.log("RENDERHOMESCREEN", doctor)
-  body.innerHTML =
-  `<div class="container" id="${doctor.id}">
-  <div class="alert alert-success alert-dismissible fade show">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>Success!</strong> You have successfully logged in.
-  </div>
+const renderAppointments = (signedInDoctor) => {
+  console.log("RENDERAPPOINTMENTS")
+  const appointments = document.querySelector('#appointment-list')
+    signedInDoctor.appointments.forEach(app => {
+      const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
+      appointments.innerHTML += appLI
+    })
+    const createApp = `<button type="button" name="button" data-id="${signedInDoctor.id}" class="create-appointment" >+</button>`
+    appointments.innerHTML += createApp
+    const createAppButton = document.querySelector(".create-appointment")
+    createAppButton.addEventListener('click', createNewAppointment)
+    appointments.addEventListener('click', renderDetailedAppointment)
+}
 
-  <div id="main">
-  <h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1>
-  <div class="bg" id="time"><h1><h1>Welcome Dr. ${doctor.last_name} <p> <h3> Todays date is: ${d} </h3> </div>
-<button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
-<div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240);>
-
-<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-<h2>Dr. ${doctor.full_name} </h2> <p> <img src="${doctor.image}" alt="doctor photo" > </p>
-<h3>Specialty: </h3> <p> ${doctor.specialty}</p>
-<h3>Bio: </h3> <p> ${doctor.bio}</p>
-<h3>Residency </h3> <p> ${doctor.residency}</p>
-<h3>Email: </h3> <p> ${doctor.email}</p>
-</div>
-
-</div>
-<div class="containers"> <p>
-<div> <button class="Edit-Btn">Edit Profile</button> </div>
-    <form class="edit-doctor-form" data-id="${doctor.id}">
-    <p>
-      <h3>Edit Your Personal Information:</h3>
-      <input
-        type="text"
-        name="bio"
-        value=""
-        placeholder="Edit Bio"
-        class="input-text"
-      />
-
-      <input
-        type="text"
-        name="email"
-        value=""
-        placeholder="Edit Email"
-        class="input-text"
-      />
-
-      <input
-        type="text"
-        name="image"
-        value=""
-        placeholder="Edit Image"
-        class="input-text"
-      />
-      <input
-        type="submit"
-        name="submit"
-        value="Submit Changes"
-        class="submit"
-      />
-    </form>
-  </div>  
-    <div class="container">
-    <h1 id="hold" class="display-1" style="font-size: 40px;"></h1>
-  <div class="row" style="font-size:20px;">
-    <div class="col-sm-4" id="appointment-list"><h1>My Appointments</h1></div>
-    <div class="col-sm-4" id="patient-info"><h1>Patient Info</h1></div>
-    <div class="col-sm-4" id="appointment-info"><h1>Appointment Info</h1></div>
-  </div>
-
-</div>`
-
-const doctorDiv = document.createElement('div')
-doctorDiv.dataset.id = doctor.id
-
-
-//const welcomePanel = body.children[0].children[1]
-
-
-const doctorContainer = document.querySelector('.edit-doctor-form');
-const editBtn = document.querySelector('.Edit-Btn')
-
-editBtn.addEventListener('click', () => { // hide & seek with the form
-  editDoctor = !editDoctor
-  if (editDoctor) {
-    doctorContainer.style.display = 'block'
-  } else {
-    doctorContainer.style.display = 'none'
-  }
-})
-
-doctorContainer.addEventListener("submit", (e) => {
-
+const editDoctorForm = (e) => {
   e.preventDefault();
+  console.log("EDITDOCTORFORM")
 
   if (e.target.className === "edit-doctor-form") {
-
-
-
       const formData = {
         bio: e.target[0].value,
         email: e.target[1].value,
@@ -251,7 +188,7 @@ doctorContainer.addEventListener("submit", (e) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          "Accept": "application/json"
         },
         body: JSON.stringify(formData)
       };
@@ -263,40 +200,118 @@ doctorContainer.addEventListener("submit", (e) => {
 
         })
       }
-    })
+}
 
+const renderDoctorHomeScreen = (doctor) => {
+  console.log("RENDERDOCTORHOMESCREEN")
+  signedInDoctor = doctor
+  var d = new Date();
+  body.innerHTML =
+  `<div class="container" id="${doctor.id}">
+  <div class="alert alert-success alert-dismissible fade show">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Success!</strong> You have successfully logged in.
+  </div>
 
+  <div id="main">
+  <h1 id="rcorners1" class="display-1" style="font-size: 100px; text-align:right;">myMD</h1>
+  <div class="bg" id="time"><h1><h1>Welcome Dr. ${doctor.last_name} <p> <h3> Todays date is: ${d} </h3> </div>
+  <button class="openbtn" onclick="openNav()">☰ Open Doctor Profile</button>
+  <div id="mySidebar" class="sidebar" style="background-color:rgb(240, 240, 240);>
 
-const appointments = document.querySelector('#appointment-list')
-doctor.appointments.forEach(app => {
-    const appLI = `<li data-id="${app.id}">${app.stringified_date}</li>`
-    appointments.innerHTML += appLI
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <h2>Dr. ${doctor.full_name} </h2> <p> <img src="${doctor.image}" alt="doctor photo" > </p>
+  <h3>Specialty: </h3> <p> ${doctor.specialty}</p>
+  <h3>Bio: </h3> <p> ${doctor.bio}</p>
+  <h3>Residency </h3> <p> ${doctor.residency}</p>
+  <h3>Email: </h3> <p> ${doctor.email}</p>
+  </div>
+
+  </div>
+  <div class="containers"> <p>
+  <div> <button class="Edit-Btn">Edit Profile</button> </div>
+      <form class="edit-doctor-form" data-id="${doctor.id}">
+      <p>
+        <h3>Edit Your Personal Information:</h3>
+        <input
+          type="text"
+          name="bio"
+          value=""
+          placeholder="Edit Bio"
+          class="input-text"
+        />
+
+        <input
+          type="text"
+          name="email"
+          value=""
+          placeholder="Edit Email"
+          class="input-text"
+        />
+
+        <input
+          type="text"
+          name="image"
+          value=""
+          placeholder="Edit Image"
+          class="input-text"
+        />
+        <input
+          type="submit"
+          name="submit"
+          value="Submit Changes"
+          class="submit"
+        />
+      </form>
+    </div>
+      <div class="container">
+      <h1 id="hold" class="display-1" style="font-size: 40px;"></h1>
+    <div class="row" style="font-size:20px;">
+      <div class="col-sm-4" id="appointment-list"><h1>My Appointments</h1></div>
+      <div class="col-sm-4" id="patient-info"><h1>Patient Info</h1></div>
+      <div class="col-sm-4" id="appointment-info"><h1>Appointment Info</h1></div>
+    </div>
+  </div>`
+
+  const doctorDiv = document.createElement('div')
+  doctorDiv.dataset.id = doctor.id
+
+  const doctorContainer = document.querySelector('.edit-doctor-form');
+  const editBtn = document.querySelector('.Edit-Btn')
+
+  editBtn.addEventListener('click', () => { // hide & seek with the form
+    editDoctor = !editDoctor
+    if (editDoctor) {
+      doctorContainer.style.display = 'block'
+    } else {
+      doctorContainer.style.display = 'none'
+    }
   })
-  const createApp = `<button type="button" name="button" data-id="${doctor.id}" class="create-appointment" >+</button>`
-  appointments.innerHTML += createApp
-  const createAppButton = document.querySelector(".create-appointment")
-  createAppButton.addEventListener('click', createNewAppointment)
-  appointments.addEventListener('click', renderDetailedAppointment)
+
+  doctorContainer.addEventListener("submit", editDoctorForm)
+  renderAppointments(signedInDoctor)
 }
 
 const renderErrors = (err) => {
-  appointmentList.innerHTML = `<h1>The following errors prevented the data from fetching. ${err}. Make sure rails server is running.`
+  console.log("RENDERERRORS")
+  body.innerHTML = `<h1>The following errors prevented the data from fetching. ${err}. Make sure rails server is running.`
 }
 
-const renderDetailedAppointment = (event) => {
-  if (event.target.tagName === "LI") {
-    console.log("IM AN LI", event.target)
-    clicked = event.target
-    const appointmentId = event.target.dataset.id
-    fetch(`${APPOINTMENTS_ENDPOINT}/${appointmentId}`)
-      .then(resp => resp.json())
-      .then(appointment => renderOneAppointment(appointment))
-      .catch(err => console.log(err))
-  }
-}
+// const renderDetailedAppointment = (event) => {
+//   if (event.target.tagName === "LI") {
+//     console.log("IM AN LI", event.target)
+//     clicked = event.target
+//     const appointmentId = event.target.dataset.id
+//     fetch(`${APPOINTMENTS_ENDPOINT}/${appointmentId}`)
+//       .then(resp => resp.json())
+//       .then(appointment => renderOneAppointment(appointment))
+//       .catch(err => console.log(err))
+//   }
+// }
 
 const renderUpdatedAppt = (eventTarget, apptInfo) => {
     // debugger
+    console.log("RENDERUPDATEDAPPT")
     const appointmentInfoPanel = document.querySelector("#appointment-info")
     const apptDiagnosis = apptInfo.diagnosis
     const apptDirections = apptInfo.directions
@@ -304,8 +319,77 @@ const renderUpdatedAppt = (eventTarget, apptInfo) => {
     appointmentInfoPanel.innerHTML += apptInfoDiv
   }
 
+const renderUpdatedPatient = (patientInfo) => {
+  console.log("RENDERUPDATEDPATIENT")
+  const patientInfoPanel = document.querySelector("#patient-info")
+
+  const updatedPatientForm = `<h1>Patient Details</h1><h1>${patientInfo.full_name}</h1><img src="${patientInfo.image}" alt="patient photo">
+  <h2>Pre-existing Medical Conditions: ${patientInfo.health_conditions}</h2>
+  <h3>Age: ${patientInfo.age} years</h3>
+  <h3>Height: ${patientInfo.height_string}</h3>
+  <h3>Weight: ${patientInfo.weight} pounds</h3>
+  <h3>Email: ${patientInfo.email}</h3>
+  <button type="button" name="button" data-id="${patientInfo.id}" class="update-patient-info">Update Patient Info</button>`
+
+  patientInfoPanel.innerHTML = updatedPatientForm
+}
+
+const renderPatientUpdate = (e) => {
+  e.preventDefault()
+  console.log("RENDERPATIENTUPDATE")
+  const patientID = e.target.dataset.id
+  const eventTarget = e.target
+  // debugger
+  console.log(e)
+  const formData = {
+    age: e.target[0].value,
+    height: e.target[1].value,
+    weight: e.target[2].value,
+    email: e.target[3].value
+  }
+  // debugger
+  const reqObj = {
+    method: "PATCH",
+    headers: {
+      'Content-Type': "application/json",
+      'Accept': "application/json"
+    },
+    body: JSON.stringify(formData)
+  }
+
+  fetch(`${PATIENTS_ENDPOINT}/${patientID}`, reqObj)
+    .then( resp => resp.json())
+    .then( patientInfo => renderUpdatedPatient(patientInfo))
+    .catch(err => console.log(err))
+}
+
+const updateDiagnosisDirections = (e) => {
+  e.preventDefault()
+  console.log("UPDATEDIAGNOSISDIRECTIONS")
+  const formData = {
+    diagnosis: e.target[0].value,
+    directions: e.target[1].value
+  }
+  console.log(formData)
+  e.target.reset()
+  const reqObj = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(formData)
+  }
+  const eventTarget = e.target
+  const patientId = e.target.parentElement.dataset.id
+  fetch(`${APPOINTMENTS_ENDPOINT}/${patientId}`, reqObj)
+  .then( resp => resp.json())
+  .then( apptInfo => renderUpdatedAppt(eventTarget, apptInfo))
+  .catch( err => console.log(err))
+}
+
 const renderOneAppointment = (appointment) => {
-  console.log("APPT", appointment)
+  console.log("RENDERONEAPPOINTMENT", appointment)
   const appointmentInfoPanel = document.querySelector("#appointment-info")
   appointmentInfoPanel.dataset.id = appointment.id
   const apptDetail = `<h1>Appointment Details</h1>
@@ -329,7 +413,7 @@ const renderOneAppointment = (appointment) => {
     <button type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
     patientInfoPanel.innerHTML = patientDetail
 
-  
+
     const updatePatient = document.querySelector(".update-patient-info")
     updatePatient.addEventListener('click', function(e){
       if(e.target.className === 'update-patient-info')
@@ -342,83 +426,18 @@ const renderOneAppointment = (appointment) => {
       <input type="text" rows="4" cols="50" name="email" placeholder="Email:" name="" value="">
       <input type="submit" name="Submit" value="Submit">
     </form>`
-    
+
       patientInfoPanel.innerHTML = newPatientDetails
 
       const patientUpdateBtn = document.querySelector('.update-patient-btn')
       // add eventlistenr on form
       // update patient details
-      patientUpdateBtn.addEventListener('submit', function(e){
-        e.preventDefault()
-        const patientID = e.target.dataset.id
-        const eventTarget = e.target
-        // debugger
-        console.log(e)
-        const formData = {
-          age: e.target[0].value,
-          height: e.target[1].value,
-          weight: e.target[2].value,
-          email: e.target[3].value
-        }
-        // debugger
-        const reqObj = {
-          method: "PATCH",
-          headers: {
-            'Content-Type': "application/json",
-            'Accept': "application/json"
-          },
-          body: JSON.stringify(formData)
-        }
-        fetch(`${PATIENTS_ENDPOINT}/${patientID}`, reqObj)
-        .then( resp => resp.json())
-        .then( patientInfo => renderUpdatedPatient(patientInfo))
-        .catch(err => console.log(err))
-
-        function renderUpdatedPatient(patientInfo){
-          const patientInfoPanel = document.querySelector("#patient-info")
-
-          const updatedPatientForm = `<h1>Patient Details</h1><h1>${patientInfo.full_name}</h1><img src="${patientInfo.image}" alt="patient photo">
-          <h2>Pre-existing Medical Conditions: ${patient.health_conditions}</h2>
-          <h3>Age: ${patientInfo.age} years</h3>
-          <h3>Height: ${patientInfo.height_string}</h3>
-          <h3>Weight: ${patientInfo.weight} pounds</h3>
-          <h3>Email: ${patientInfo.email}</h3>
-          <button type="button" name="button" data-id="${patientInfo.id}" class="update-patient-info">Update Patient Info</button>`
-
-          patientInfoPanel.innerHTML = updatedPatientForm
-        }
-      })
+      patientUpdateBtn.addEventListener('submit', renderPatientUpdate)
     })
 
   const formContainer = document.querySelector(".appointment-details")
-  formContainer.addEventListener('submit', function(e){
-    e.preventDefault()
-    const formData = {
-      diagnosis: e.target[0].value,
-      directions: e.target[1].value
-    }
-    console.log(formData)
-    e.target.reset()
-    const reqObj = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(formData)
-    }
-    const eventTarget = e.target
-    const patientId = e.target.parentElement.dataset.id
-    fetch(`${APPOINTMENTS_ENDPOINT}/${patientId}`, reqObj)
-    .then( resp => resp.json())
-    .then( apptInfo => renderUpdatedAppt(eventTarget, apptInfo))
-    .catch( err => console.log(err))
-  })
+  formContainer.addEventListener('submit', updateDiagnosisDirections)
 }
-
-
-//  event listeners
-// appointments.addEventListener('click', renderDetailedAppointment)
 
 //  invoked functions
 

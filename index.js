@@ -562,6 +562,10 @@ const renderOneAppointment = (appointment) => {
   formContainer.addEventListener('submit', updateDiagnosisDirections)
 }
 
+const logout = () => {
+  
+}
+
 //  invoked functions
 
 loginScreen()

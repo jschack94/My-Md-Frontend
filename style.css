@@ -62,7 +62,6 @@ img {
 input {
   font-family: times;
 }
-<<<<<<< HEAD
 
 #rcorners1 {
   text-align: center;
@@ -73,8 +72,6 @@ input {
   width: 200px;
   height: 150px;  
 }
-=======
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384
 .login-form {
   text-align: center;
   align: center;
@@ -130,13 +127,12 @@ body, html {
   /* The image used */
   background-image: url("https://mdbootstrap.com/img/Photos/Others/architecture.jpg");
   /* Full height */
-  height: 100%;
+  height: 100%; 
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-<<<<<<< HEAD
   /* Button used to open the contact form - fixed at the bottom of the page */
 .open-button {
   background-color: #555;
@@ -160,13 +156,3 @@ body, html {
   color: black;
   text-align: center;
 }
-
-
-
-
-
-/* The popup form - hidden by default */
-
-
-=======
->>>>>>> 231aca5fa682a1c2bf66b6c2b46351e13e404384

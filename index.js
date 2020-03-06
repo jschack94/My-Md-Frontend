@@ -339,11 +339,89 @@ const renderErrors = (err) => {
 const renderUpdatedAppt = (eventTarget, apptInfo) => {
     // debugger
     console.log("RENDERUPDATEDAPPT")
+
     const appointmentInfoPanel = document.querySelector("#appointment-info")
+    appointmentInfoPanel.innerHTML = ""
     const apptDiagnosis = apptInfo.diagnosis
     const apptDirections = apptInfo.directions
-    const apptInfoDiv = `<p>Diagnosis: ${apptDiagnosis}</p><p>Directions for patient: ${apptDirections}</p>`
-    appointmentInfoPanel.innerHTML += apptInfoDiv
+
+    appointmentInfoPanel.dataset.id = apptInfo.id
+    const apptDetail = `<h1>Appointment Info</h1>
+      <h3>Date: ${apptInfo.stringified_date}</h3>
+      <h3>Time: ${apptInfo.stringified_time}</h3>
+      <h3>Diagnosis: ${apptInfo.diagnosis}</h3>
+      <h3>Directions: ${apptInfo.directions}</h3>
+      <button id="edit-appointment" data-id="${apptInfo.id}">Edit Appointment</button>
+      <button <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a> </button>
+      <p><a href="https://www.webmd.com/">Consult WebMD</a>`
+    appointmentInfoPanel.innerHTML = apptDetail
+    const editApptButton = document.querySelector('#edit-appointment')
+    editApptButton.addEventListener('click', function(e){
+
+        console.log("RENDERONEAPPOINTMENTAFTERUPDATED", apptInfo)
+        const appointmentInfoPanel = document.querySelector("#appointment-info")
+        appointmentInfoPanel.dataset.id = apptInfo.id
+        const apptDetail = `<h1>Appointment Info</h1>
+          <h3>Date: ${apptInfo.stringified_date}</h3>
+          <h3>Time: ${apptInfo.stringified_time}</h3>
+          <form class="appointment-details">
+            <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
+            <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" value="">
+            <input type="submit" name="Submit" value="Submit">
+          </form><p>
+          </p>
+          <button <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a> </button>
+          <p><a href="https://www.webmd.com/">Consult WebMD</a>`
+        appointmentInfoPanel.innerHTML = apptDetail
+        // render one patient
+        const patient = apptInfo.patient
+        const patientInfoPanel = document.querySelector("#patient-info")
+        const patientDetail = `<h1>Patient Info</h1><h1><strong>${patient.full_name}</strong></h1></strong><img src="${patient.image}" alt="patient photo">
+          <strong><h2>Pre-existing Medical Conditions: </strong> ${patient.health_conditions}</h2>
+          <strong><h3>Age: </strong> ${patient.age} years</h3>
+          <strong><h3>Height: </strong> ${patient.height_string}</h3>
+          <strong><h3>Weight:</strong> ${patient.weight} pounds</h3>
+          <strong><h3>Email:</strong> ${patient.email}</h3>
+          <button type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
+          patientInfoPanel.innerHTML = patientDetail
+
+
+          // const updatePatient = document.querySelector(".update-patient-info")
+          document.body.addEventListener('click', function(e){
+
+            if(e.target.className === 'update-patient-info'){
+            console.log(e.target.value, "button clicked")
+            const patientID = e.target.dataset.id
+            fetch(`${PATIENTS_ENDPOINT}/${patientID}`)
+              .then(resp => resp.json())
+              .then(patient => {
+                const newPatientDetails = `<h1>Patient Info</h1><form class="update-patient-btn" data-id="${patient.id}">
+                <label>Age: </label><input type="text" rows="4" cols="50" name="age" placeholder="enter age" value="${patient.age}">
+                <label>Height: </label><input type="text" rows="4" cols="50" name="height" placeholder="enter height" name="" value="${patient.height}">
+                <label>Weight: </label><input type="text" rows="4" cols="50" name="weight" placeholder="enter weight" value="${patient.weight}">
+                <label>Email: </label><input type="text" rows="4" cols="50" name="email" placeholder="enter email" name="" value="${patient.email}">
+                <input type="submit" name="Submit" value="Submit">
+              </form>`
+
+                patientInfoPanel.innerHTML = newPatientDetails
+
+                const patientUpdateBtn = document.querySelector('.update-patient-btn')
+                // add eventlistenr on form
+                // update patient details
+                patientUpdateBtn.addEventListener('submit', renderPatientUpdate)
+
+              })
+
+            }
+          })
+
+        const formContainer = document.querySelector(".appointment-details")
+        formContainer.addEventListener('submit', updateDiagnosisDirections)
+
+
+    })
+
+    // appointmentInfoPanel.innerHTML = `<p>Diagnosis: ${apptDiagnosis}</p><p>Directions for patient: ${apptDirections}</p>`
   }
 
 const renderUpdatedPatient = (patientInfo) => {
@@ -417,12 +495,12 @@ const renderOneAppointment = (appointment) => {
   console.log("RENDERONEAPPOINTMENT", appointment)
   const appointmentInfoPanel = document.querySelector("#appointment-info")
   appointmentInfoPanel.dataset.id = appointment.id
-  const apptDetail = `<h1>Appointment Details</h1>
+  const apptDetail = `<h1>Appointment Info</h1>
     <h3>Date: ${appointment.stringified_date}</h3>
     <h3>Time: ${appointment.stringified_time}</h3>
     <form class="appointment-details">
       <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
-      <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" name="" value="">
+      <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" value="">
       <input type="submit" name="Submit" value="Submit">
     </form><p>
     </p>
@@ -432,7 +510,7 @@ const renderOneAppointment = (appointment) => {
   // render one patient
   const patient = appointment.patient
   const patientInfoPanel = document.querySelector("#patient-info")
-  const patientDetail = `<h1>Patient Details</h1><h1><strong>${patient.full_name}</strong></h1></strong><img src="${patient.image}" alt="patient photo">
+  const patientDetail = `<h1>Patient Info</h1><h1><strong>${patient.full_name}</strong></h1></strong><img src="${patient.image}" alt="patient photo">
     <strong><h2>Pre-existing Medical Conditions: </strong> ${patient.health_conditions}</h2>
     <strong><h3>Age: </strong> ${patient.age} years</h3>
     <strong><h3>Height: </strong> ${patient.height_string}</h3>
@@ -448,20 +526,25 @@ const renderOneAppointment = (appointment) => {
       if(e.target.className === 'update-patient-info'){
       console.log(e.target.value, "button clicked")
       const patientID = e.target.dataset.id
-      const newPatientDetails = `<form class="update-patient-btn" data-id="${patientID}">
-      <input type="text" rows="4" cols="50" name="age" placeholder="Age" value="">
-      <input type="text" rows="4" cols="50" name="height" placeholder="Height:" name="" value="">
-      <input type="text" rows="4" cols="50" name="weight" placeholder="Weight" value="">
-      <input type="text" rows="4" cols="50" name="email" placeholder="Email:" name="" value="">
-      <input type="submit" name="Submit" value="Submit">
-    </form>`
+      fetch(`${PATIENTS_ENDPOINT}/${patientID}`)
+        .then(resp => resp.json())
+        .then(patient => {
+          const newPatientDetails = `<h1>Patient Info</h1><form class="update-patient-btn" data-id="${patient.id}">
+          <label>Age: </label><input type="text" rows="4" cols="50" name="age" placeholder="enter age" value="${patient.age}"><br>
+          <label>Height: </label><input type="text" rows="4" cols="50" name="height" placeholder="enter height" name="" value="${patient.height}"><br>
+          <label>Weight: </label><input type="text" rows="4" cols="50" name="weight" placeholder="enter weight" value="${patient.weight}"><br>
+          <label>Email: </label><input type="text" rows="4" cols="50" name="email" placeholder="enter email" name="" value="${patient.email}"><br>
+          <input type="submit" name="Submit" value="Submit">
+        </form>`
 
-      patientInfoPanel.innerHTML = newPatientDetails
+          patientInfoPanel.innerHTML = newPatientDetails
 
-      const patientUpdateBtn = document.querySelector('.update-patient-btn')
-      // add eventlistenr on form
-      // update patient details
-      patientUpdateBtn.addEventListener('submit', renderPatientUpdate)
+          const patientUpdateBtn = document.querySelector('.update-patient-btn')
+          // add eventlistenr on form
+          // update patient details
+          patientUpdateBtn.addEventListener('submit', renderPatientUpdate)
+
+        })
 
       }
     })
@@ -470,10 +553,6 @@ const renderOneAppointment = (appointment) => {
   formContainer.addEventListener('submit', updateDiagnosisDirections)
 
 }
-
-// const logout = () => {
-//
-// }
 
 const apptDeleteObj = () => {
   return {

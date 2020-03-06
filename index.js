@@ -34,9 +34,9 @@ const fetchDoctorFromLogin = (event) => {
 const loginScreen = () => {
   console.log("LOGINSCREEN")
   const loginDiv = document.createElement("div")
-  body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://lh3.googleusercontent.com/proxy/BxPHZgDtikExm_mDhA3yCuDIH3htNAm633lxZ35G4DqNiNhyM-9Wve7A4DmojwBRqLwSUXJ57HQM9Y22OHfEPhfSOSy-pn0" alt="medical-symbol"><div class="login" id="login">
+  body.innerHTML = `<div class="bg"></div> <h1 id="myMDLogo">myMD</h1><br><img style="float: right; margin-: 100px;" class="medical-image" src="https://www.vippng.com/png/detail/53-530236_caduceus-medical-symbol-png-medical-symbol.png" alt="medical-symbol"><div class="login" id="login">
     <form class="login-form" action="index.html" method="post">
-      <label for="login-form"> <strong> <p> Manage Your Appointments </p> <p> Find Your Patients </p> <p> Access Your Results  </p>  </strong> <p> Please Enter Email to Login </p> </label><br>
+      <label for="login-form">Please Enter Email to Login</label><br>
       <input class="login-email" type="text" name="email" value="">
       <input class="login-submit" type="submit" name="Submit" value="Submit">
       </form>
@@ -173,7 +173,7 @@ const renderAppointments = (signedInDoctor) => {
           const appLI = `<li data-id="${app.id}">${app.stringified_date}<button type="button" name="button" data-id="${app.id}" class="delete-appointment" >Delete</button></li>`
           appointments.innerHTML += appLI
         })
-        const createApp = `<button type="button" name="button" data-id="${signedInDoctor.id}" class="create-appointment" >Create</button>`
+        const createApp = `<button style="font-size:15px; type="button" name="button" data-id="${signedInDoctor.id}" class="create-appointment" >Create New Appointment</button>`
         appointments.innerHTML += createApp
         const createAppButton = document.querySelector(".create-appointment")
         createAppButton.addEventListener('click', createNewAppointment)
@@ -223,7 +223,7 @@ const renderDoctorHomeScreen = (doctor) => {
   `<div class="container" id="${doctor.id}">
   <div class="alert alert-success alert-dismissible fade show">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>Success!</strong> You have successfully logged in.
+  <strong>Login Successful!</strong>
   </div>
 
 
@@ -294,12 +294,8 @@ const renderDoctorHomeScreen = (doctor) => {
   <p>
   </p>
 
-  <div class="footer">
-            <h1> © 2020 Copyright: Flatiron School </h1>
-
-            <img style="bottom: center; margin-: -100px;" class="flatiron-image" src="https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/999/s300/flatironschool.png" alt="medical-symbol"><div class="login" id="login">
-          </div>
-
+<div class="footer">
+  <h1 style="font-size:20px; bottom: center; margin-: -100px;">Made by: Lindsay Mecher, Jonathan Schack, and John Leavell <img style="bottom: center; margin-: -100px; height: 50px; width: 50px;" class="flatiron-image" src="https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/999/s300/flatironschool.png" alt="flatiron-school-logo"></h1>
 </div>`
 
 
@@ -347,13 +343,13 @@ const renderUpdatedAppt = (eventTarget, apptInfo) => {
 
     appointmentInfoPanel.dataset.id = apptInfo.id
     const apptDetail = `<h1>Appointment Info</h1>
-      <h3>Date: ${apptInfo.stringified_date}</h3>
-      <h3>Time: ${apptInfo.stringified_time}</h3>
-      <h3>Diagnosis: ${apptInfo.diagnosis}</h3>
-      <h3>Directions: ${apptInfo.directions}</h3>
-      <button id="edit-appointment" data-id="${apptInfo.id}">Edit Appointment</button>
-      <button <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a> </button>
-      <p><a href="https://www.webmd.com/">Consult WebMD</a>`
+      <h3 style="font-size:15px;">Date: ${apptInfo.stringified_date}</h3>
+      <h3 style="font-size:15px;">Time: ${apptInfo.stringified_time}</h3>
+      <h3 style="font-size:15px;">Diagnosis: ${apptInfo.diagnosis}</h3>
+      <h3 style="font-size:15px;">Directions: ${apptInfo.directions}</h3><br>
+      <button style="font-size:15px;" id="edit-appointment" data-id="${apptInfo.id}">Edit Appointment</button><br>
+      <button style="font-size:15px;"><a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a></button>
+      <br><a href="https://www.webmd.com/">Consult WebMD</a>`
     appointmentInfoPanel.innerHTML = apptDetail
     const editApptButton = document.querySelector('#edit-appointment')
     editApptButton.addEventListener('click', function(e){
@@ -362,27 +358,26 @@ const renderUpdatedAppt = (eventTarget, apptInfo) => {
         const appointmentInfoPanel = document.querySelector("#appointment-info")
         appointmentInfoPanel.dataset.id = apptInfo.id
         const apptDetail = `<h1>Appointment Info</h1>
-          <h3>Date: ${apptInfo.stringified_date}</h3>
-          <h3>Time: ${apptInfo.stringified_time}</h3>
+          <h3 style="font-size:15px;">Date: ${apptInfo.stringified_date}</h3>
+          <h3 style="font-size:15px;">Time: ${apptInfo.stringified_time}</h3>
           <form class="appointment-details">
-            <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
-            <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" value="">
-            <input type="submit" name="Submit" value="Submit">
-          </form><p>
-          </p>
-          <button <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a> </button>
-          <p><a href="https://www.webmd.com/">Consult WebMD</a>`
+            <label>Diagnosis: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="${apptInfo.diagnosis}">
+            <label>Directions: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" value="${apptInfo.directions}"><br>
+            <input style="font-size:15px;" type="submit" name="Submit" value="Submit">
+          </form><br>
+          <button style="font-size:15px;"><a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a></button>
+          <br><a href="https://www.webmd.com/">Consult WebMD</a>`
         appointmentInfoPanel.innerHTML = apptDetail
         // render one patient
         const patient = apptInfo.patient
         const patientInfoPanel = document.querySelector("#patient-info")
-        const patientDetail = `<h1>Patient Info</h1><h1><strong>${patient.full_name}</strong></h1></strong><img src="${patient.image}" alt="patient photo">
-          <strong><h2>Pre-existing Medical Conditions: </strong> ${patient.health_conditions}</h2>
-          <strong><h3>Age: </strong> ${patient.age} years</h3>
-          <strong><h3>Height: </strong> ${patient.height_string}</h3>
-          <strong><h3>Weight:</strong> ${patient.weight} pounds</h3>
-          <strong><h3>Email:</strong> ${patient.email}</h3>
-          <button type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
+        const patientDetail = `<h1>Patient Info</h1><h1 style="font-size:15px;">Name: ${patient.full_name}</h1><img src="${patient.image}" alt="patient photo">
+          <h2 style="font-size:15px;">Pre-existing Medical Conditions: ${patient.health_conditions}</h2>
+          <h3 style="font-size:15px;">Age: ${patient.age} years</h3>
+          <h3 style="font-size:15px;">Height: ${patient.height_string}</h3>
+          <h3 style="font-size:15px;">Weight: ${patient.weight} pounds</h3>
+          <h3 style="font-size:15px;">Email: ${patient.email}</h3><br>
+          <button style="font-size:15px;" type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
           patientInfoPanel.innerHTML = patientDetail
 
 
@@ -396,11 +391,11 @@ const renderUpdatedAppt = (eventTarget, apptInfo) => {
               .then(resp => resp.json())
               .then(patient => {
                 const newPatientDetails = `<h1>Patient Info</h1><form class="update-patient-btn" data-id="${patient.id}">
-                <label>Age: </label><input type="text" rows="4" cols="50" name="age" placeholder="enter age" value="${patient.age}">
-                <label>Height: </label><input type="text" rows="4" cols="50" name="height" placeholder="enter height" name="" value="${patient.height}">
-                <label>Weight: </label><input type="text" rows="4" cols="50" name="weight" placeholder="enter weight" value="${patient.weight}">
-                <label>Email: </label><input type="text" rows="4" cols="50" name="email" placeholder="enter email" name="" value="${patient.email}">
-                <input type="submit" name="Submit" value="Submit">
+                <label style="font-size:15px;">Age: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="age" placeholder="enter age" value="${patient.age}">
+                <label style="font-size:15px;">Height: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="height" placeholder="enter height" name="" value="${patient.height}">
+                <label style="font-size:15px;">Weight: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="weight" placeholder="enter weight" value="${patient.weight}">
+                <label style="font-size:15px;">Email: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="email" placeholder="enter email" name="" value="${patient.email}">
+                <input style="font-size:15px;" type="submit" name="Submit" value="Submit">
               </form>`
 
                 patientInfoPanel.innerHTML = newPatientDetails
@@ -428,13 +423,13 @@ const renderUpdatedPatient = (patientInfo) => {
   console.log("RENDERUPDATEDPATIENT")
   const patientInfoPanel = document.querySelector("#patient-info")
 
-  patientInfoPanel.innerHTML = `<h1>Patient Details</h1><h1>${patientInfo.full_name}</h1><img src="${patientInfo.image}" alt="patient photo">
-  <h2>Pre-existing Medical Conditions: ${patientInfo.health_conditions}</h2>
-  <h3>Age: ${patientInfo.age} years</h3>
-  <h3>Height: ${patientInfo.height_string}</h3>
-  <h3>Weight: ${patientInfo.weight} pounds</h3>
-  <h3>Email: ${patientInfo.email}</h3>
-  <button type="button" name="button" data-id="${patientInfo.id}" class="update-patient-info">Update Patient Info</button>`
+  patientInfoPanel.innerHTML = `<h1>Patient Info</h1><h1 style="font-size:15px;">${patientInfo.full_name}</h1><img src="${patientInfo.image}" alt="patient photo">
+  <h2 style="font-size:15px;">Pre-existing Medical Conditions: ${patientInfo.health_conditions}</h2>
+  <h3 style="font-size:15px;">Age: ${patientInfo.age} years</h3>
+  <h3 style="font-size:15px;">Height: ${patientInfo.height_string}</h3>
+  <h3 style="font-size:15px;">Weight: ${patientInfo.weight} pounds</h3>
+  <h3 style="font-size:15px;">Email: ${patientInfo.email}</h3><br>
+  <button style="font-size:15px;" type="button" name="button" data-id="${patientInfo.id}" class="update-patient-info">Update Patient Info</button>`
 }
 
 const renderPatientUpdate = (e) => {
@@ -496,27 +491,25 @@ const renderOneAppointment = (appointment) => {
   const appointmentInfoPanel = document.querySelector("#appointment-info")
   appointmentInfoPanel.dataset.id = appointment.id
   const apptDetail = `<h1>Appointment Info</h1>
-    <h3>Date: ${appointment.stringified_date}</h3>
-    <h3>Time: ${appointment.stringified_time}</h3>
-    <form class="appointment-details">
-      <input type="text" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="">
-      <input type="text" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" value="">
-      <input type="submit" name="Submit" value="Submit">
-    </form><p>
-    </p>
-    <button <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a> </button>
-    <p><a href="https://www.webmd.com/">Consult WebMD</a>`
+    <h3 style="font-size:15px;">Date: ${appointment.stringified_date}</h3>
+    <h3 style="font-size:15px;">Time: ${appointment.stringified_time}</h3>
+    <form style="font-size:15px;" class="appointment-details">
+      <label>Diagnosis: </label><input style="font-size:15px;" type="textarea" rows="4" cols="50" name="diagnosis" placeholder="Enter Diagnosis" value="${appointment.diagnosis}"><br>
+      <label>Directions: </label><input style="font-size:15px;" type="textarea" rows="4" cols="50" name="directions" placeholder="Enter Directions For Patient" value="${appointment.directions}"><br>
+      <input style="font-size:15px; text-align: center;" type="submit" name="Submit" value="Submit">
+    </form><br>
+    <button style="font-size: 15px;"><a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Follow Up Email</a></button>`
   appointmentInfoPanel.innerHTML = apptDetail
   // render one patient
   const patient = appointment.patient
   const patientInfoPanel = document.querySelector("#patient-info")
-  const patientDetail = `<h1>Patient Info</h1><h1><strong>${patient.full_name}</strong></h1></strong><img src="${patient.image}" alt="patient photo">
-    <strong><h2>Pre-existing Medical Conditions: </strong> ${patient.health_conditions}</h2>
-    <strong><h3>Age: </strong> ${patient.age} years</h3>
-    <strong><h3>Height: </strong> ${patient.height_string}</h3>
-    <strong><h3>Weight:</strong> ${patient.weight} pounds</h3>
-    <strong><h3>Email:</strong> ${patient.email}</h3>
-    <button type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
+  const patientDetail = `<h1>Patient Info</h1><h1 style="font-size:15px;">Name: ${patient.full_name}</h1><img src="${patient.image}" alt="patient photo">
+    <h2 style="font-size:15px;">Pre-existing Medical Conditions: ${patient.health_conditions}</h2>
+    <h3 style="font-size:15px;">Age: ${patient.age} years</h3>
+    <h3 style="font-size:15px;">Height: ${patient.height_string}</h3>
+    <h3 style="font-size:15px;">Weight: ${patient.weight} pounds</h3>
+    <h3 style="font-size:15px;">Email: ${patient.email}</h3>
+    <button style="font-size:15px; type="button" name="button" data-id="${patient.id}" class="update-patient-info">Update Patient Info</button>`
     patientInfoPanel.innerHTML = patientDetail
 
 
@@ -530,11 +523,11 @@ const renderOneAppointment = (appointment) => {
         .then(resp => resp.json())
         .then(patient => {
           const newPatientDetails = `<h1>Patient Info</h1><form class="update-patient-btn" data-id="${patient.id}">
-          <label>Age: </label><input type="text" rows="4" cols="50" name="age" placeholder="enter age" value="${patient.age}"><br>
-          <label>Height: </label><input type="text" rows="4" cols="50" name="height" placeholder="enter height" name="" value="${patient.height}"><br>
-          <label>Weight: </label><input type="text" rows="4" cols="50" name="weight" placeholder="enter weight" value="${patient.weight}"><br>
-          <label>Email: </label><input type="text" rows="4" cols="50" name="email" placeholder="enter email" name="" value="${patient.email}"><br>
-          <input type="submit" name="Submit" value="Submit">
+          <label style="font-size:15px;">Age: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="age" placeholder="enter age" value="${patient.age}"><br>
+          <label style="font-size:15px;">Height: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="height" placeholder="enter height" name="" value="${patient.height}"><br>
+          <label style="font-size:15px;">Weight: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="weight" placeholder="enter weight" value="${patient.weight}"><br>
+          <label style="font-size:15px;">Email: </label><input style="font-size:15px;" type="text" rows="4" cols="50" name="email" placeholder="enter email" name="" value="${patient.email}"><br>
+          <input style="font-size:15px;" type="submit" name="Submit" value="Submit">
         </form>`
 
           patientInfoPanel.innerHTML = newPatientDetails

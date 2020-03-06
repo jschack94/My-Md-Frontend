@@ -4,12 +4,8 @@ body {
 
 li {
   font-size: 15px;
-
 }
 
-.delete-appointment {
-  font-size: 15px;
-}
 .sidebar {
   height: 100%;
   width: 0;

@@ -1,6 +1,6 @@
-DOCTORS_ENDPOINT = "http://localhost:3000/doctors"
-PATIENTS_ENDPOINT = "http://localhost:3000/patients"
-APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
+DOCTORS_ENDPOINT = "https://mymdjschack.herokuapp.com/doctors"
+PATIENTS_ENDPOINT = "https://mymdjschack.herokuapp.com/patients"
+APPOINTMENTS_ENDPOINT = "https://mymdjschack.herokuapp.com/appointments"
 const appointmentList = document.querySelector("#appointment-list")
 const doctorContainer = document.querySelector(".doctor-container")
 const body = document.querySelector("body")
@@ -53,6 +53,8 @@ const postAppObj = (patientId, date, doctorId) => {
       "Content-Type":"application/json",
       "Accept":"application/json"
     },
+    
+    
     body: JSON.stringify({
       patient_id: patientId,
       doctor_id: doctorId,
@@ -182,6 +184,8 @@ const renderAppointments = (signedInDoctor) => {
     .catch(err => renderErrors(err))
 }
 
+
+
 const editDoctorForm = (e) => {
   e.preventDefault();
   console.log("EDITDOCTORFORM")
@@ -194,7 +198,7 @@ const editDoctorForm = (e) => {
       };
 
       e.target.reset()
-
+      
       const reqObj = {
         method: "PATCH",
         headers: {
@@ -203,7 +207,7 @@ const editDoctorForm = (e) => {
         },
         body: JSON.stringify(formData)
       };
-
+      
       fetch( DOCTORS_ENDPOINT + "/" + e.target.dataset.id, reqObj)
         .then((resp) => resp.json())
         .then((data) => {
@@ -215,11 +219,12 @@ const editDoctorForm = (e) => {
 
 const renderDoctorHomeScreen = (doctor) => {
   console.log("RENDERDOCTORHOMESCREEN")
+  
   signedInDoctor = doctor
   var date = new Date();
   let d = (date.getMonth()+1)+'-'+date.getDate()+'-'+date.getFullYear()
   body.innerHTML =
-
+  
   `<div class="container" id="${doctor.id}">
   <div class="alert alert-success alert-dismissible fade show">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -302,7 +307,9 @@ const renderDoctorHomeScreen = (doctor) => {
 
 const closeButton = document.querySelector('.Close-Btn')
 
+
 closeButton.addEventListener('click', closeNav)
+
 
 const doctorDiv = document.createElement('div')
 doctorDiv.dataset.id = doctor.id
@@ -326,6 +333,8 @@ editBtn.addEventListener('click', () => { // hide & seek with the form
   doctorContainer.addEventListener("submit", editDoctorForm)
   renderAppointments(signedInDoctor)
 }
+
+
 
 const renderErrors = (err) => {
   console.log("RENDERERRORS")
@@ -406,15 +415,21 @@ const renderUpdatedAppt = (eventTarget, apptInfo) => {
                 patientUpdateBtn.addEventListener('submit', renderPatientUpdate)
 
               })
+              
 
             }
           })
+
+
+          
 
         const formContainer = document.querySelector(".appointment-details")
         formContainer.addEventListener('submit', updateDiagnosisDirections)
 
 
     })
+
+    
 
     // appointmentInfoPanel.innerHTML = `<p>Diagnosis: ${apptDiagnosis}</p><p>Directions for patient: ${apptDirections}</p>`
   }
@@ -431,6 +446,7 @@ const renderUpdatedPatient = (patientInfo) => {
   <h3 style="font-size:15px;">Email: ${patientInfo.email}</h3><br>
   <button style="font-size:15px;" type="button" name="button" data-id="${patientInfo.id}" class="update-patient-info">Update Patient Info</button>`
 }
+
 
 const renderPatientUpdate = (e) => {
   e.preventDefault()
@@ -461,6 +477,7 @@ const renderPatientUpdate = (e) => {
     .catch(err => console.log(err))
 }
 
+
 const updateDiagnosisDirections = (e) => {
   e.preventDefault()
   console.log("UPDATEDIAGNOSISDIRECTIONS")
@@ -485,6 +502,8 @@ const updateDiagnosisDirections = (e) => {
   .then( apptInfo => renderUpdatedAppt(eventTarget, apptInfo))
   .catch( err => renderErrors(err))
 }
+
+
 
 const renderOneAppointment = (appointment) => {
   console.log("RENDERONEAPPOINTMENT", appointment)
@@ -542,6 +561,8 @@ const renderOneAppointment = (appointment) => {
       }
     })
 
+    debugger
+
   const formContainer = document.querySelector(".appointment-details")
   formContainer.addEventListener('submit', updateDiagnosisDirections)
 
@@ -591,3 +612,4 @@ body.addEventListener('click', eventListeners)
 //  invoked functions
 
 loginScreen()
+

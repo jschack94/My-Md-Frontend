@@ -1,6 +1,6 @@
-DOCTORS_ENDPOINT = "http://localhost:3000/doctors"
-PATIENTS_ENDPOINT = "http://localhost:3000/patients"
-APPOINTMENTS_ENDPOINT = "http://localhost:3000/appointments"
+DOCTORS_ENDPOINT = "https://my-appointments-api.herokuapp.com/doctors"
+PATIENTS_ENDPOINT = "https://my-appointments-api.herokuapp.com/patients"
+APPOINTMENTS_ENDPOINT = "https://my-appointments-api.herokuapp.com/appointments"
 const appointmentList = document.querySelector("#appointment-list")
 const doctorContainer = document.querySelector(".doctor-container")
 const body = document.querySelector("body")

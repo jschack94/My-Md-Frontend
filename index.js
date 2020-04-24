@@ -10,7 +10,7 @@ let signedInDoctor
 
 //  defined functions
 
-const etchOneDoctor = (doctorEmail, doctors) => {
+const fetchOneDoctor = (doctorEmail, doctors) => {
   console.log("FETCHONEDOCTOR")
   const matchingDoc = doctors.filter(doctor => doctor.email === doctorEmail)
   const docId = parseInt(matchingDoc[0].id)

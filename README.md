@@ -2,7 +2,7 @@ My MD
 
 My MD is a...
 
-View the Back End Repository Here: https://github.com/jschack94/tasks-backend
+View the Back End Repository Here: https://github.com/jschack94/my_appointments_api
 
 Current Features<p>
 A user can...<p>

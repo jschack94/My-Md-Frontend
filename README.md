@@ -2,7 +2,7 @@ My MD
 
 My MD is a...
 
-View the Back End Repository Here: https://github.com/jschack94/my_appointments_api
+View the Back End Repository Here: https://github.com/jschack94/My-Md-Mod-4-backend-rails-api
 
 Current Features<p>
 A user can...<p>

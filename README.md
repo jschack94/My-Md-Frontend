@@ -31,3 +31,10 @@ After you run `npm start`, a tab in your browser should open automatically. Go a
 * [React](https://reactjs.org/)
 * [Redux](https://redux.js.org/)
 * [Material UI](https://material-ui.com/)
+
+<strong> Contact: </strong> <p>
+My e-mail is jschack94@gmail.com. <p> Visit my LinkedIn at https://www.linkedin.com/in/jonathan-schack/
+
+<strong> License: </strong>
+This project uses the following license: MIT License.
+

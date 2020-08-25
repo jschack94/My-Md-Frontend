@@ -1,5 +1,5 @@
 # My MD
-
+The My MD applicatoin allows doctors to manage the entire lifecycle of their patients and appointments
 
 ## Live Demo
 Play around with the [live demo here](
@@ -7,7 +7,7 @@ https://jschack94.github.io/My-Md-Frontend/). Please use the email address "doct
 
 ## Installing Locally
 
-1. Follow on the links for both the [frontend](https://github.com/jschack94/My-Md-Frontend) and [backend](https://github.com/linsuri/hatch-backend).
+1. Follow on the links for both the [frontend](https://github.com/jschack94/My-Md-Frontend) and [backend](https://github.com/jschack94/My-Md-backend).
 2. Clone both of them down into separate folders on your computer.
 3. In the command line, `cd` into the backend folder and run `bundle install`.
 4. Run `rails s` to start your backend server. It should run on `localhost:3000`.
@@ -19,17 +19,18 @@ After you run `npm start`, a tab in your browser should open automatically. Go a
 
 ## Features
 
-* A user can sign up/log in.
+* A doctor can log in.
+* A doctor can edit his personal information.
+* A doctor can view and edit and delete his appointments.
+* A doctor can view and edit patient information.
 
 
 ## Built With
 
 * [Rails](https://rubyonrails.org/)
-* [Action Cable](https://guides.rubyonrails.org/action_cable_overview.html)
+* [Javascript]
 * [PostgreSQL](https://www.postgresql.org/)
-* [React](https://reactjs.org/)
-* [Redux](https://redux.js.org/)
-* [Material UI](https://material-ui.com/)
+* [Semantic UI](https://material-ui.com/)
 
 <strong> Contact: </strong> <p>
 My e-mail is jschack94@gmail.com. <p> Visit my LinkedIn at https://www.linkedin.com/in/jonathan-schack/

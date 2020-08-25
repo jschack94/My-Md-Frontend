@@ -1,6 +1,5 @@
 # My MD
 
-My MD is a web application that helps you develop your professional network in a meaningful way. If you would like to be a mentor, you can sign up to be one and you will show up on the 'Browse All Mentors' page where potential mentees can then request your mentorship. Once the mentor accepts the request, the mentor and mentee can chat and make plans to meet up in person, schedule a phone call, exchange their email addresses, or make other arrangements they see fit.
 
 ## Live Demo
 Play around with the [live demo here](
@@ -8,7 +7,7 @@ https://jschack94.github.io/My-Md-Frontend/). Please use the email address "doct
 
 ## Installing Locally
 
-1. Follow on the links for both the [frontend](https://github.com/linsuri/hatch-frontend) and [backend](https://github.com/linsuri/hatch-backend).
+1. Follow on the links for both the [frontend](https://github.com/jschack94/My-Md-Frontend) and [backend](https://github.com/linsuri/hatch-backend).
 2. Clone both of them down into separate folders on your computer.
 3. In the command line, `cd` into the backend folder and run `bundle install`.
 4. Run `rails s` to start your backend server. It should run on `localhost:3000`.
